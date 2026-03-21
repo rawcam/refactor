@@ -6,12 +6,11 @@
     <title>Sputnik Studio v5.5.1 — AV System Designer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ========== СТИЛИ (полностью из v5.5.0 с дополнениями) ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         :root {
             --bg-page: #f4f7fb; --bg-panel: #ffffff; --text-primary: #1e2b3c; --text-secondary: #4a5a6e;
             --border-light: #d9e1ec; --accent: #2563eb; --accent-hover: #1d4ed8; --card-bg: #f9fcff;
-            --shadow: 0 8px 20px -8px rgba(0,20,40,0.15); --danger: #dc2626; --warning: #f59e0b;
+            --shadow: 0 8px 20px -8px rgba(0,20,40,0.15); --danger: #dc2626;
             --sidebar-width: 300px;
             --sidebar-collapsed-width: 70px;
         }
@@ -234,9 +233,6 @@
             font-size: 0.7rem;
             font-weight: 500;
         }
-        .path-latency.high-latency {
-            background: var(--danger);
-        }
         .segments-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
         .segment {
             flex: 1 1 200px;
@@ -319,6 +315,13 @@
             background: var(--danger); color: white; border: none; border-radius: 30px;
             padding: 6px 16px; font-weight: 500; cursor: pointer; transition: 0.2s;
             font-size: 0.8rem;
+        }
+        .btn-inactive {
+            background: #9ca3af;
+            cursor: default;
+        }
+        .btn-inactive:hover {
+            background: #9ca3af;
         }
         .mobile-menu-toggle {
             display: none; position: fixed; bottom: 20px; left: 20px;
@@ -596,7 +599,7 @@
         <div class="sidebar-section" id="ergoSection">
             <div class="section-header" data-section="ergo"><span><i class="fas fa-chalkboard-user"></i> Эргономика ЭКП</span><i class="fas fa-angle-down"></i></div>
             <div class="section-content" id="ergoContent">
-                <button class="btn-primary" id="showErgoCalcBtn" style="width:100%;"><i class="fas fa-calculator"></i> Показать калькулятор</button>
+                <button class="btn-primary" id="showErgoCalcBtn"><i class="fas fa-calculator"></i> Показать калькулятор</button>
             </div>
         </div>
 
@@ -616,24 +619,18 @@
         <div class="sidebar-section" id="networkStatsSection">
             <div class="section-header" data-section="networkStats"><span><i class="fas fa-chart-line"></i> СЕТЬ</span><i class="fas fa-angle-down"></i></div>
             <div class="section-content" id="networkStatsContent">
-                <div class="widget">
-                    <div class="widget-item"><span class="widget-label"><i class="fas fa-chart-line"></i><span> Битрейт:</span></span><span class="widget-value" id="sidebarTotalBitrate">0</span> Мбит/с</div>
-                    <div class="widget-item"><span class="widget-label"><i class="fas fa-tachometer-alt"></i><span> Загрузка:</span></span><span class="widget-value" id="sidebarLoadPercent">0%</span></div>
-                    <div class="widget-item"><span class="widget-label"><i class="fas fa-plug"></i><span> Порты:</span></span><span class="widget-value" id="sidebarPortsUsed">0</span>/<span id="sidebarPortsTotal">0</span></div>
-                    <div class="widget-item"><span class="widget-label"><i class="fas fa-stream"></i><span> Multicast:</span></span><span class="widget-value" id="summaryMulticast">❌</span></div>
-                    <div class="widget-item"><span class="widget-label"><i class="fas fa-tasks"></i><span> QoS:</span></span><span class="widget-value" id="summaryQoS">❌</span></div>
-                </div>
+                <div class="widget"><div class="widget-item"><span class="widget-label"><i class="fas fa-chart-line"></i><span> Битрейт:</span></span><span class="widget-value" id="sidebarTotalBitrate">0</span> Мбит/с</div>
+                <div class="widget-item"><span class="widget-label"><i class="fas fa-tachometer-alt"></i><span> Загрузка:</span></span><span class="widget-value" id="sidebarLoadPercent">0%</span></div>
+                <div class="widget-item"><span class="widget-label"><i class="fas fa-plug"></i><span> Порты:</span></span><span class="widget-value" id="sidebarPortsUsed">0</span>/<span id="sidebarPortsTotal">0</span></div></div>
             </div>
         </div>
         <!-- СТАТИСТИКА: питание -->
         <div class="sidebar-section" id="powerStatsSection">
             <div class="section-header" data-section="powerStats"><span><i class="fas fa-bolt"></i> ПИТАНИЕ</span><i class="fas fa-angle-down"></i></div>
             <div class="section-content" id="powerStatsContent">
-                <div class="widget">
-                    <div class="widget-item"><span class="widget-label"><i class="fas fa-bolt"></i><span> PoE:</span></span><span class="widget-value" id="sidebarPoEUsed">0</span>/<span id="sidebarPoETotal">0</span> Вт</div>
-                    <div class="widget-item"><span class="widget-label"><i class="fas fa-fire"></i><span> Мощность:</span></span><span class="widget-value" id="sidebarTotalPower">0</span> Вт</div>
-                    <div class="widget-item"><span class="widget-label"><i class="fas fa-thermometer-half"></i><span> Тепло:</span></span><span class="widget-value" id="sidebarTotalBTU">0</span> BTU/ч</div>
-                </div>
+                <div class="widget"><div class="widget-item"><span class="widget-label"><i class="fas fa-bolt"></i><span> PoE:</span></span><span class="widget-value" id="sidebarPoEUsed">0</span>/<span id="sidebarPoETotal">0</span> Вт</div>
+                <div class="widget-item"><span class="widget-label"><i class="fas fa-fire"></i><span> Мощность:</span></span><span class="widget-value" id="sidebarTotalPower">0</span> Вт</div>
+                <div class="widget-item"><span class="widget-label"><i class="fas fa-thermometer-half"></i><span> Тепло:</span></span><span class="widget-value" id="sidebarTotalBTU">0</span> BTU/ч</div></div>
             </div>
         </div>
 
@@ -670,89 +667,22 @@
         </div>
     </div>
 </div>
-
 <div id="docModal" class="modal">
     <div class="modal-content">
         <span class="modal-close" id="closeDocModal">&times;</span>
         <h2>Документация Sputnik Studio v5.5.1</h2>
         <p><strong>Sputnik Studio</strong> — профессиональный инструмент для расчёта задержек видеосигнала, сетевой нагрузки и энергопотребления в системах AV over IP, матричной коммутации, LED-экранах и видеостенах. Добавлен модуль эргономики ЭКП (расчёт расстояния до экрана и высоты символов) по методике ITPP.</p>
-        <h3>1. Термины и определения</h3>
-        <ul>
-            <li><strong>Тракт</strong> — логический путь прохождения сигнала от источника до отображающего устройства.</li>
-            <li><strong>Задержка (latency)</strong> — время прохождения сигнала через устройство или тракт, измеряемое в миллисекундах и кадрах.</li>
-            <li><strong>Битрейт</strong> — объём данных в Мбит/с.</li>
-            <li><strong>PoE (Power over Ethernet)</strong> — передача питания по витой паре.</li>
-            <li><strong>QoS (Quality of Service)</strong> — приоритизация трафика.</li>
-            <li><strong>Multicast</strong> — передача данных группе получателей.</li>
-            <li><strong>HDBaseT</strong> — передача видео, аудио, управления и питания по витой паре.</li>
-            <li><strong>SDVoE</strong> — передача видео без сжатия по 10GbE.</li>
-            <li><strong>NDI|HX</strong> — передача видео по IP со сжатием H.264.</li>
-            <li><strong>Dante AV</strong> — аудио- и видеопередача по IP.</li>
-        </ul>
-        <h3>2. Минимальные требования к пользователю</h3>
-        <p>Использование Sputnik Studio предполагает знания в области AV‑систем, сетевых технологий, видеостандартов и электротехники. Рекомендуется наличие сертификатов CTS, SDVoE Certified, Dante Certification или эквивалентного опыта.</p>
-        <h3>3. Основные разделы</h3>
-        <ul>
-            <li><strong>VIDEO</strong>: разрешение, субдискретизация, FPS, цветовое пространство, глубина цвета.</li>
-            <li><strong>NETWORK</strong>: среда передачи, Multicast, QoS, тип сети, синхронизация, резервирование.</li>
-            <li><strong>LED</strong>: выбор модели по шагу пикселя, размеры в кабинетах (600×337.5 мм) или метрах.</li>
-            <li><strong>SOUND</strong>: микрофонные каналы, тип DSP, мощность усилителей, задержка DSP.</li>
-            <li><strong>Эргономика ЭКП</strong>: расчёт расстояния до экрана по высоте символа и наоборот, выбор экрана из проекта.</li>
-        </ul>
-        <h3>4. Расчёт задержки</h3>
-        <p>Общая задержка тракта = сумма задержек всех устройств в сегментах + задержки коммутаторов. Для кодеков применяется коэффициент разрешения и субдискретизации. Результат отображается в миллисекундах и кадрах (при текущем FPS). При превышении 100 мс информер подсвечивается красным.</p>
-        <h3>5. Сетевая нагрузка и питание</h3>
-        <p>Суммарный битрейт, загрузка сети, занятость портов, PoE нагрузка, общая мощность и тепловыделение (BTU/ч) отображаются в виджетах боковой панели. Состояние Multicast и QoS отображается в виджете «СЕТЬ».</p>
-        <h3>6. Стандарты и сертификации</h3>
-        <p>Все расчёты основаны на официальных спецификациях: HDBaseT, SDVoE, NDI, Dante AV, AVIXA, IEEE 802.3.</p>
-        <h3>7. Дисклеймер</h3>
-        <p>Программный продукт предоставляется «как есть». Разработчик не несёт ответственности за убытки, возникшие в результате использования. Расчётные данные носят рекомендательный характер.</p>
-        <h3>8. Политика использования и распространения</h3>
-        <p>Правообладатель — ООО «Группа компаний Спутник». Бесплатное использование для некоммерческих целей. Коммерческое использование только по лицензионному договору. Запрещена модификация, декомпиляция, удаление уведомлений об авторских правах. Распространение разрешено при сохранении всех файлов и ссылки на репозиторий.</p>
-        <h3>9. Контакты</h3>
-        <p><strong>Разработчик:</strong> ООО «Группа компаний Спутник»<br>
-        <strong>Сайт:</strong> <a href="https://sputnik-studio.ru" target="_blank">https://sputnik-studio.ru</a><br>
-        <strong>Репозиторий:</strong> <a href="https://github.com/rawcam/sputnik-studio" target="_blank">https://github.com/rawcam/sputnik-studio</a><br>
-        <strong>Поддержка:</strong> support@sputnik-studio.ru</p>
-        <div class="modal-buttons">
-            <button class="btn-primary" id="downloadDocPdf"><i class="fas fa-download"></i> Скачать PDF</button>
-        </div>
+        <div class="modal-buttons"><button class="btn-primary" id="downloadDocPdf">Скачать PDF</button></div>
     </div>
 </div>
-
 <div id="guideModal" class="modal">
     <div class="modal-content">
         <span class="modal-close" id="closeGuideModal">&times;</span>
         <h2>Инструкция пользователя</h2>
-        <h3>1. Начало работы</h3>
-        <p>Нажмите «Новый тракт» – появится карточка тракта с тремя колонками: Вход, Коммутация, Выход.</p>
-        <h3>2. Добавление устройств</h3>
-        <ul>
-            <li><strong>Вход</strong>: добавьте источник (ПК, камера) и передатчик (Tx).</li>
-            <li><strong>Коммутация</strong>: добавьте матричный коммутатор или сетевой коммутатор.</li>
-            <li><strong>Выход</strong>: добавьте приёмник (Rx) и средство отображения (дисплей, LED-экран).</li>
-        </ul>
-        <h3>3. Настройка устройств</h3>
-        <ul>
-            <li><strong>USB</strong>: для передатчиков/приёмников – добавляет задержку и увеличивает битрейт.</li>
-            <li><strong>PoE</strong>: для поддерживаемых устройств – питание через сеть, занимает порт коммутатора.</li>
-            <li><strong>Ethernet</strong>: для IP-устройств без PoE – занимает порт, питается от 220В.</li>
-            <li><strong>Мощность (Вт)</strong>: ручная настройка.</li>
-        </ul>
-        <h3>4. Сворачивание и перемещение</h3>
-        <p>Карточки устройств можно сворачивать/разворачивать кнопкой <i class="fas fa-compress"></i> / <i class="fas fa-expand"></i>. Боковую панель можно свернуть в компактный режим (только иконки) кнопкой <i class="fas fa-chevron-left"></i>.</p>
-        <h3>5. Сохранение и отчёты</h3>
-        <p>Используйте кнопку «Сброс проекта» – перед сбросом можно сохранить текущий проект в localStorage. «Печать отчёта» создаст детальную таблицу для документации.</p>
-        <h3>6. Режим «Все тракты»</h3>
-        <p>Нажмите «Отобразить все тракты» – в основной области отобразятся все тракты со свёрнутыми карточками устройств. При клике на тракт в списке или добавлении нового тракта возвращаетесь к одному активному тракту.</p>
-        <h3>7. Калькулятор эргономики ЭКП</h3>
-        <p>В разделе «Эргономика ЭКП» нажмите «Показать калькулятор». Выберите экран из проекта или введите параметры вручную, задайте высоту символа или расстояние, выберите категорию информации (минимальная/оптимальная/критическая) и режим расчёта (точный/приближённый). Калькулятор покажет расстояние до экрана или высоту символа, а также размер символа в пикселях.</p>
-        <div class="modal-buttons">
-            <button class="btn-primary" id="downloadGuidePdf"><i class="fas fa-download"></i> Скачать PDF</button>
-        </div>
+        <p>Используйте боковую панель для создания трактов и настройки устройств. Настройки VIDEO, NETWORK, LED, SOUND влияют на расчёты. В разделе «Эргономика ЭКП» доступен калькулятор расстояния до экрана и высоты символов.</p>
+        <div class="modal-buttons"><button class="btn-primary" id="downloadGuidePdf">Скачать PDF</button></div>
     </div>
 </div>
-
 <div id="resetModal" class="modal">
     <div class="modal-content">
         <span class="modal-close" id="closeResetModal">&times;</span>
@@ -768,7 +698,7 @@
 
 <script>
 (function() {
-    // ======================== БАЗА МОДЕЛЕЙ (полная, как в v5.5.0) ========================
+    // ======================== БАЗА МОДЕЛЕЙ ========================
     const modelDB = {
         source: [
             { name: "Типовой ПК", latency: 5, poe: false, powerW: 200, icon: "fa-desktop", hasNetwork: true, shortPrefix: "PC" },
@@ -860,12 +790,11 @@
     let nextPathId = 1;
     let nextSwitchId = 1;
     let activePathId = null;
-    let viewMode = 'single';
+    let viewMode = 'single'; // 'single', 'all', 'ergo'
 
     let ledConfig = { modelIndex: 0, widthCabinets: 1, heightCabinets: 1, widthMeters: 0, heightMeters: 0, area: 0, resolution: { w:0, h:0 }, power: 0 };
     let soundConfig = { micChannels: 0, dspType: 'builtin', ampPower: 0, dspLatency: 0 };
 
-    // DOM элементы
     const sidebarPathsList = document.getElementById('sidebarPathsList');
     const sidebarTotalBitrate = document.getElementById('sidebarTotalBitrate');
     const sidebarLoadPercent = document.getElementById('sidebarLoadPercent');
@@ -875,8 +804,6 @@
     const sidebarPoETotal = document.getElementById('sidebarPoETotal');
     const sidebarTotalPower = document.getElementById('sidebarTotalPower');
     const sidebarTotalBTU = document.getElementById('sidebarTotalBTU');
-    const summaryMulticast = document.getElementById('summaryMulticast');
-    const summaryQoS = document.getElementById('summaryQoS');
     const activePathContainer = document.getElementById('activePathContainer');
     const allTractsContainer = document.getElementById('allTractsContainer');
     const ergoCalculatorContainer = document.getElementById('ergoCalculatorContainer');
@@ -996,7 +923,7 @@
         let base = {
             id: Date.now() + Math.random(),
             type: type,
-            name: model.name,
+            name: generateDeviceName(model.name.replace(/\s#\d+$/, ''), type),
             pathId: pathId,
             segment: segment,
             powerW: model.powerW,
@@ -1015,6 +942,18 @@
         if (base.poe && !base.poePower) base.poePower = 15;
         if (base.poe && base.poeEnabled === undefined) base.poeEnabled = false;
         return base;
+    }
+
+    function generateDeviceName(baseName, type) {
+        let maxNum = 0;
+        const regex = new RegExp(`^${baseName} #(\\d+)$`);
+        paths.forEach(path => {
+            [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
+                const match = dev.name.match(regex);
+                if (match) { const num = parseInt(match[1], 10); if (num > maxNum) maxNum = num; }
+            });
+        });
+        return `${baseName} #${maxNum + 1}`;
     }
 
     function createSwitch(type, modelIndex) {
@@ -1149,12 +1088,11 @@
             delay += d;
         });
         const frames = delay / (1000 / getFps());
-        const highClass = delay > 100 ? 'high-latency' : '';
         const html = `
             <div class="path-card" data-path-id="${path.id}">
                 <div class="path-header">
                     <h3>${escapeHtml(path.name)}</h3>
-                    <div class="path-latency ${highClass}">${delay.toFixed(2)} мс / ${frames.toFixed(2)} кадр.</div>
+                    <div class="path-latency" style="${delay > 100 ? 'background:#dc2626' : ''}">${delay.toFixed(2)} мс / ${frames.toFixed(2)} кадр.</div>
                 </div>
                 <div class="segments-row">
                     <div class="segment" data-path-id="${path.id}" data-segment="source">
@@ -1206,12 +1144,11 @@
             });
             if (delay > maxDelay) maxDelay = delay;
             const frames = delay / (1000 / getFps());
-            const highClass = delay > 100 ? 'high-latency' : '';
             return `
                 <div class="path-card" data-path-id="${path.id}">
                     <div class="path-header">
                         <h3>${escapeHtml(path.name)}</h3>
-                        <div class="path-latency ${highClass}">${delay.toFixed(2)} мс / ${frames.toFixed(2)} кадр.</div>
+                        <div class="path-latency" style="${delay > 100 ? 'background:#dc2626' : ''}">${delay.toFixed(2)} мс / ${frames.toFixed(2)} кадр.</div>
                     </div>
                     <div class="segments-row">
                         <div class="segment" data-path-id="${path.id}" data-segment="source">
@@ -1232,7 +1169,7 @@
         }).join('');
         const maxFrames = maxDelay / (1000 / getFps());
         allTractsContainer.innerHTML = `
-            <div class="max-latency">Максимальная задержка: ${maxDelay.toFixed(2)} мс (${maxFrames.toFixed(2)} кадр.)</div>
+            <div class="max-latency" style="${maxDelay > 100 ? 'background:#dc2626' : ''}">Максимальная задержка: ${maxDelay.toFixed(2)} мс (${maxFrames.toFixed(2)} кадр.)</div>
             ${tractsHtml}
         `;
         attachAllTractsEvents();
@@ -1325,6 +1262,11 @@
         activePathContainer.style.display = '';
         allTractsContainer.style.display = 'none';
         ergoCalculatorContainer.style.display = 'none';
+        // Обновляем вид кнопки
+        const ergoBtn = document.getElementById('showErgoCalcBtn');
+        ergoBtn.classList.remove('btn-inactive');
+        ergoBtn.classList.add('btn-primary');
+        ergoBtn.innerHTML = '<i class="fas fa-calculator"></i> Показать калькулятор';
         calculateAll();
     }
 
@@ -1333,16 +1275,45 @@
         activePathContainer.style.display = 'none';
         allTractsContainer.style.display = '';
         ergoCalculatorContainer.style.display = 'none';
+        // Обновляем вид кнопки
+        const ergoBtn = document.getElementById('showErgoCalcBtn');
+        ergoBtn.classList.remove('btn-inactive');
+        ergoBtn.classList.add('btn-primary');
+        ergoBtn.innerHTML = '<i class="fas fa-calculator"></i> Показать калькулятор';
         renderAllTracts();
     }
 
-    // ========== КАЛЬКУЛЯТОР ЭРГОНОМИКИ ==========
     function showErgoCalculator() {
+        // Если калькулятор уже открыт – закрываем
+        if (viewMode === 'ergo') {
+            // Возвращаемся к предыдущему режиму
+            const lastMode = localStorage.getItem('lastViewMode') || 'single';
+            if (lastMode === 'single') {
+                if (activePathId) setActivePath(activePathId);
+                else if (paths.length) setActivePath(paths[0].id);
+                else renderEmptyState();
+            } else if (lastMode === 'all') {
+                showAllTracts();
+            } else {
+                setActivePath(paths[0].id);
+            }
+            return;
+        }
+
+        // Сохраняем текущий режим перед открытием
+        localStorage.setItem('lastViewMode', viewMode);
         viewMode = 'ergo';
         activePathContainer.style.display = 'none';
         allTractsContainer.style.display = 'none';
         ergoCalculatorContainer.style.display = '';
+        // Меняем вид кнопки на неактивную
+        const ergoBtn = document.getElementById('showErgoCalcBtn');
+        ergoBtn.classList.remove('btn-primary');
+        ergoBtn.classList.add('btn-inactive');
+        ergoBtn.innerHTML = '<i class="fas fa-calculator"></i> Показать калькулятор';
+
         if (ergoCalculatorContainer.innerHTML === '') {
+            // Собираем список экранов из трактов (дисплеи и LED-экраны)
             let screensList = [{ id: 'custom', name: '— Ручной ввод —', width: 0, height: 0, resolutionW: 0, resolutionH: 0 }];
             paths.forEach(path => {
                 [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
@@ -1356,7 +1327,14 @@
                             rw = ledConfig.resolution.w;
                             rh = ledConfig.resolution.h;
                         }
-                        screensList.push({ id: dev.id, name: dev.name, width: w, height: h, resolutionW: rw, resolutionH: rh });
+                        screensList.push({
+                            id: dev.id,
+                            name: dev.name,
+                            width: w,
+                            height: h,
+                            resolutionW: rw,
+                            resolutionH: rh
+                        });
                     }
                 });
             });
@@ -1374,6 +1352,7 @@
                     </div>
                 </div>
             </div>`;
+
             ergoCalculatorContainer.innerHTML = `
                 <div class="ergo-calc">
                     <div class="ergo-mode-switch" id="ergoModeSwitch">
@@ -1435,6 +1414,8 @@
                     </div>
                 </div>
             `;
+
+            // Обработка выбора экрана
             const screenSelect = document.getElementById('ergoScreenSelect');
             const manualDiv = document.getElementById('manualScreenParams');
             const screenWidth = document.getElementById('screenWidth');
@@ -1442,6 +1423,7 @@
             const screenResW = document.getElementById('screenResW');
             const screenResH = document.getElementById('screenResH');
             let currentScreen = { width: 0, height: 0, resW: 0, resH: 0 };
+
             function updateScreen() {
                 const selected = screenSelect.options[screenSelect.selectedIndex];
                 if (selected.value === 'custom') {
@@ -1459,11 +1441,13 @@
                 }
                 updateErgoCalculator();
             }
+
             screenSelect.addEventListener('change', updateScreen);
             screenWidth.addEventListener('input', updateScreen);
             screenHeight.addEventListener('input', updateScreen);
             screenResW.addEventListener('input', updateScreen);
             screenResH.addEventListener('input', updateScreen);
+
             function updateErgoCalculator() {
                 const mode = document.querySelector('.ergo-mode-btn.active')?.dataset.mode || 'exact';
                 const angleDeg = { min: 0.25, optimal: 0.38, critical: 0.55 };
@@ -1492,6 +1476,7 @@
                     document.getElementById('ergoDistanceResult').innerText = '—';
                     document.getElementById('pixelInfoDist').innerHTML = '';
                 }
+
                 const L_input = parseFloat(document.getElementById('ergoDistanceMM')?.value);
                 const infoTypeHeight = document.getElementById('ergoInfoTypeHeight')?.value;
                 if (!isNaN(L_input) && L_input > 0 && infoTypeHeight) {
@@ -1516,6 +1501,7 @@
                     document.getElementById('pixelInfoHeight').innerHTML = '';
                 }
             }
+
             const modeBtns = document.querySelectorAll('.ergo-mode-btn');
             modeBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -1627,8 +1613,6 @@
         sidebarPoETotal.innerText=totalPoEBudget;
         sidebarTotalPower.innerText=totalPowerAll.toFixed(0);
         sidebarTotalBTU.innerText=(totalPowerAll*3.412).toFixed(0);
-        summaryMulticast.innerText = globalSettings.multicast ? '✅' : '❌';
-        summaryQoS.innerText = globalSettings.qos ? '✅' : '❌';
 
         if (viewMode === 'single') {
             const activePath = paths.find(p=>p.id===activePathId);
@@ -1888,33 +1872,23 @@
 
     document.getElementById('addPathBtnSidebar').addEventListener('click',()=>addNewPath());
     document.getElementById('showAllTractsBtn').addEventListener('click',()=>showAllTracts());
-    document.getElementById('showErgoCalcBtn').addEventListener('click',()=>showErgoCalculator());
 
-    // ПЕЧАТЬ ОТЧЁТА
-    document.getElementById('printReportBtnSidebar').addEventListener('click', () => {
-        const fps = getFps();
+    // Кнопка калькулятора с двумя состояниями
+    const ergoBtn = document.getElementById('showErgoCalcBtn');
+    ergoBtn.addEventListener('click', () => {
+        if (viewMode === 'ergo') {
+            showErgoCalculator(); // закрывает
+        } else {
+            showErgoCalculator(); // открывает
+        }
+    });
+
+    document.getElementById('printReportBtnSidebar').addEventListener('click',()=>{
         let win = window.open('', '_blank');
-        win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Технический отчёт Sputnik Studio</title><style>');
-        win.document.write(`
-            body { font-family: 'Segoe UI', Arial, sans-serif; margin: 20px; color: #1e2b3c; }
-            h1 { color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 8px; }
-            h2 { color: #1e2b3c; margin-top: 24px; border-left: 4px solid #2563eb; padding-left: 12px; }
-            h3 { color: #4a5a6e; margin-top: 16px; }
-            table { border-collapse: collapse; width: 100%; margin: 16px 0; }
-            th, td { border: 1px solid #d9e1ec; padding: 8px 12px; text-align: left; vertical-align: top; }
-            th { background-color: #e2edff; font-weight: 600; }
-            .summary-box { background: #f9fcff; border: 1px solid #d9e1ec; border-radius: 8px; padding: 16px; margin: 16px 0; }
-            .summary-grid { display: flex; flex-wrap: wrap; gap: 20px; }
-            .summary-item { flex: 1; min-width: 200px; }
-            .footer { margin-top: 40px; font-size: 12px; color: #6c757d; text-align: center; border-top: 1px solid #dee2e6; padding-top: 16px; }
-            .high-latency { background-color: #fee2e2; }
-            @media print { body { margin: 0; } }
-        `);
-        win.document.write('</style></head><body>');
+        win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Технический отчёт Sputnik Studio</title><style>body{font-family:"Segoe UI",Arial,sans-serif;margin:20px;color:#1e2b3c}h1{color:#2563eb;border-bottom:2px solid #2563eb;padding-bottom:8px}h2{color:#1e2b3c;margin-top:24px;border-left:4px solid #2563eb;padding-left:12px}h3{color:#4a5a6e;margin-top:16px}table{border-collapse:collapse;width:100%;margin:16px 0}th,td{border:1px solid #d9e1ec;padding:8px 12px;text-align:left;vertical-align:top}th{background-color:#e2edff;font-weight:600}.summary-box{background:#f9fcff;border:1px solid #d9e1ec;border-radius:8px;padding:16px;margin:16px 0}.summary-grid{display:flex;flex-wrap:wrap;gap:20px}.summary-item{flex:1;min-width:200px}.footer{margin-top:40px;font-size:12px;color:#6c757d;text-align:center;border-top:1px solid #dee2e6;padding-top:16px}</style></head><body>');
         win.document.write('<h1>Sputnik Studio v5.5.1 — Технический отчёт</h1>');
         win.document.write('<p><strong>Дата формирования:</strong> ' + new Date().toLocaleString() + '</p>');
-        win.document.write('<h2>1. Глобальные параметры проекта</h2>');
-        win.document.write('<div class="summary-box"><div class="summary-grid">');
+        win.document.write('<h2>1. Глобальные параметры проекта</h2><div class="summary-box"><div class="summary-grid">');
         win.document.write(`<div class="summary-item"><strong>Разрешение:</strong> ${globalSettings.resolution}</div>`);
         win.document.write(`<div class="summary-item"><strong>Субдискретизация:</strong> ${globalSettings.chroma}</div>`);
         win.document.write(`<div class="summary-item"><strong>FPS:</strong> ${globalSettings.fps}</div>`);
@@ -1922,24 +1896,39 @@
         win.document.write(`<div class="summary-item"><strong>Multicast:</strong> ${globalSettings.multicast ? 'Включён' : 'Отключён'}</div>`);
         win.document.write(`<div class="summary-item"><strong>QoS:</strong> ${globalSettings.qos ? 'Включён' : 'Отключён'}</div>`);
         win.document.write('</div></div>');
-        win.document.write('<h2>2. Сетевая нагрузка и энергопотребление</h2>');
-        win.document.write('<div class="summary-box"><div class="summary-grid">');
+        win.document.write('<h2>2. Сетевая нагрузка и энергопотребление</h2><div class="summary-box"><div class="summary-grid">');
         win.document.write(`<div class="summary-item"><strong>Суммарный битрейт:</strong> ${sidebarTotalBitrate.innerText} Мбит/с</div>`);
         win.document.write(`<div class="summary-item"><strong>Загрузка сети:</strong> ${sidebarLoadPercent.innerText}</div>`);
         win.document.write(`<div class="summary-item"><strong>Занято портов:</strong> ${sidebarPortsUsed.innerText}/${sidebarPortsTotal.innerText}</div>`);
         win.document.write(`<div class="summary-item"><strong>PoE нагрузка:</strong> ${sidebarPoEUsed.innerText}/${sidebarPoETotal.innerText} Вт</div>`);
+        win.document.write(`<div class="summary-item"><strong>Питание 220В:</strong> ${sidebarTotalPower.innerText} Вт</div>`);
         win.document.write(`<div class="summary-item"><strong>Общая мощность:</strong> ${sidebarTotalPower.innerText} Вт</div>`);
         win.document.write(`<div class="summary-item"><strong>Тепловыделение:</strong> ${sidebarTotalBTU.innerText} BTU/ч</div>`);
         win.document.write('</div></div>');
         win.document.write('<h2>3. Тракты передачи сигнала</h2>');
-        paths.forEach((path, idx) => {
+        paths.forEach(path => {
             let delay = 0;
             const codecFactor = getResolutionFactor() * getChromaFactor() * getColorSpaceFactor() * getBitDepthFactor();
-            path.sourceDevices.forEach(dev => { let d = dev.latency || 0; if (dev.usb) d += 0.5; if (dev.audioEmbed) d += 1.0; if (dev.type === 'tx' || dev.type === 'rx' || dev.type === 'ledProc') d *= codecFactor; delay += d; });
-            projectSwitches.forEach(sw => { if (sw.switchingLatency) delay += sw.switchingLatency; if (sw.latencyIn) delay += sw.latencyIn; if (sw.latencyOut) delay += sw.latencyOut; });
-            path.sinkDevices.forEach(dev => { let d = dev.latency || 0; if (dev.usb) d += 0.5; if (dev.audioEmbed) d += 1.0; if (dev.type === 'tx' || dev.type === 'rx' || dev.type === 'ledProc') d *= codecFactor; delay += d; });
-            let frames = delay / (1000 / fps);
-            let highClass = delay > 100 ? 'high-latency' : '';
+            path.sourceDevices.forEach(dev => {
+                let d = dev.latency || 0;
+                if (dev.usb) d += 0.5;
+                if (dev.audioEmbed) d += 1.0;
+                if (dev.type === 'tx' || dev.type === 'rx' || dev.type === 'ledProc') d *= codecFactor;
+                delay += d;
+            });
+            projectSwitches.forEach(sw => {
+                if (sw.switchingLatency) delay += sw.switchingLatency;
+                if (sw.latencyIn) delay += sw.latencyIn;
+                if (sw.latencyOut) delay += sw.latencyOut;
+            });
+            path.sinkDevices.forEach(dev => {
+                let d = dev.latency || 0;
+                if (dev.usb) d += 0.5;
+                if (dev.audioEmbed) d += 1.0;
+                if (dev.type === 'tx' || dev.type === 'rx' || dev.type === 'ledProc') d *= codecFactor;
+                delay += d;
+            });
+            const frames = delay / (1000 / getFps());
             win.document.write(`<h3>${path.name} (задержка: ${delay.toFixed(2)} мс / ${frames.toFixed(2)} кадр.)</h3>`);
             win.document.write('<table><thead><tr><th>Сегмент</th><th>Устройство</th><th>Тип</th><th>Задержка (мс)</th><th>Питание</th><th>Подключение</th><th>Примечания</th></tr></thead><tbody>');
             [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
@@ -1951,7 +1940,10 @@
                 let powerInfo = dev.poe === true ? (dev.poeEnabled ? `PoE ${dev.poePower} Вт` : `220В ${dev.powerW} Вт`) : `220В ${dev.powerW} Вт`;
                 let connection = dev.poeEnabled ? 'PoE' : (dev.ethernet ? 'Ethernet' : '—');
                 let remarks = [];
-                if (dev.type === 'tx' || dev.type === 'rx') { if (dev.usb) remarks.push(`USB ${dev.usbVersion}`); if (dev.audioEmbed) remarks.push(`Аудио +${dev.audioEmbed} мс`); }
+                if (dev.type === 'tx' || dev.type === 'rx') {
+                    if (dev.usb) remarks.push(`USB ${dev.usbVersion}`);
+                    if (dev.audioEmbed) remarks.push(`Аудио +${dev.audioEmbed} мс`);
+                }
                 if (dev.type === 'matrix') remarks.push(`Вх/вых: ${dev.inputs}/${dev.outputs}`);
                 if (dev.type === 'networkSwitch') remarks.push(`Портов: ${dev.ports.length}, бэкплейн: ${dev.backplane} Гбит/с`);
                 win.document.write(`<tr><td>${segName}</td><td>${dev.name}</td><td>${dev.type}</td><td>${devLatency.toFixed(2)}</td><td>${powerInfo}</td><td>${connection}</td><td>${remarks.join(', ')}</td></tr>`);
@@ -1967,7 +1959,7 @@
             });
             win.document.write('</tbody></table>');
         });
-        win.document.write('<div class="footer">Отчёт сгенерирован в Sputnik Studio v5.5.1. Данные актуальны на момент печати.</div>');
+        win.document.write('<div class="footer">Отчёт сгенерирован в Sputnik Studio v5.5.1.</div>');
         win.document.write('</body></html>');
         win.document.close();
         win.print();
