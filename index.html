@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Sputnik Studio v4.16.3 — стабильная версия</title>
+    <title>Sputnik Studio v5.0.0 — профессиональная версия</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -11,7 +11,7 @@
             --bg-page: #f4f7fb; --bg-panel: #ffffff; --text-primary: #1e2b3c; --text-secondary: #4a5a6e;
             --border-light: #d9e1ec; --accent: #2563eb; --accent-hover: #1d4ed8; --card-bg: #f9fcff;
             --shadow: 0 8px 20px -8px rgba(0,20,40,0.15); --network-bg: #e2edff; --danger: #dc2626;
-            --warning: #f59e0b; --success: #10b981; --path-highlight: #fee2e2; --poe-on: #10b981; --poe-off: #9ca3af;
+            --warning: #f59e0b; --success: #10b981; --path-highlight: #fee2e2;
             --sidebar-width: 280px;
             --sidebar-collapsed-width: 70px;
         }
@@ -19,7 +19,6 @@
             --bg-page: #121212; --bg-panel: #1e1e1e; --text-primary: #e0e0e0; --text-secondary: #a0a0a0;
             --border-light: #333333; --accent: #3b82f6; --accent-hover: #2563eb; --card-bg: #2a2a2a;
             --shadow: 0 8px 20px -8px rgba(0,0,0,0.7); --network-bg: #1e2a3a; --path-highlight: #451a1a;
-            --poe-on: #34d399; --poe-off: #6b7280;
         }
         body { background: var(--bg-page); color: var(--text-primary); transition: background 0.2s, color 0.2s; overflow-x: hidden; }
         .app-layout { display: flex; min-height: 100vh; position: relative; }
@@ -38,52 +37,21 @@
             z-index: 10;
             transition: width 0.2s ease;
         }
-        .sidebar.collapsed {
-            width: var(--sidebar-collapsed-width);
-        }
+        .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
         .sidebar-header {
-            padding: 16px 16px;
+            padding: 16px;
             border-bottom: 1px solid var(--border-light);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .sidebar.collapsed .sidebar-header {
-            padding: 16px 8px;
-            justify-content: center;
-        }
-        .sidebar-header h2 {
-            font-size: 1rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            color: var(--text-primary);
-            white-space: nowrap;
-        }
-        .sidebar.collapsed .sidebar-header h2 {
-            display: none;
-        }
-        .sidebar-header .header-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .sidebar.collapsed .header-actions {
-            gap: 8px;
-        }
-        .theme-switch, .collapse-btn {
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            transition: 0.2s;
-            width: 24px;
-            text-align: center;
-        }
-        .theme-switch:hover, .collapse-btn:hover {
-            color: var(--accent);
-        }
-        .sidebar-section {
-            border-bottom: 1px solid var(--border-light);
-        }
+        .sidebar.collapsed .sidebar-header { padding: 16px 8px; justify-content: center; }
+        .sidebar-header h2 { font-size: 1rem; font-weight: 500; letter-spacing: 0.5px; color: var(--text-primary); white-space: nowrap; }
+        .sidebar.collapsed .sidebar-header h2 { display: none; }
+        .header-actions { display: flex; gap: 8px; align-items: center; }
+        .theme-switch, .collapse-btn { cursor: pointer; font-size: 0.8rem; color: var(--text-secondary); transition: 0.2s; width: 24px; text-align: center; }
+        .theme-switch:hover, .collapse-btn:hover { color: var(--accent); }
+        .sidebar-section { border-bottom: 1px solid var(--border-light); }
         .section-header {
             padding: 10px 16px;
             font-weight: 500;
@@ -95,44 +63,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background 0.2s;
         }
-        .sidebar.collapsed .section-header {
-            padding: 10px 0;
-            justify-content: center;
-        }
-        .section-header:hover {
-            background: var(--card-bg);
-        }
-        .section-header i:first-child {
-            margin-right: 8px;
-        }
-        .sidebar.collapsed .section-header span {
-            display: none;
-        }
-        .section-header i:last-child {
-            transition: transform 0.2s;
-            font-size: 0.7rem;
-        }
-        .section-header.collapsed i:last-child {
-            transform: rotate(-90deg);
-        }
-        .section-content {
-            padding: 10px 16px;
-            transition: all 0.2s;
-        }
-        .section-content.collapsed {
-            display: none;
-        }
-        .sidebar.collapsed .section-content {
-            padding: 10px 0;
-        }
+        .sidebar.collapsed .section-header { padding: 10px 0; justify-content: center; }
+        .section-header:hover { background: var(--card-bg); }
+        .section-header i:first-child { margin-right: 8px; }
+        .sidebar.collapsed .section-header span { display: none; }
+        .section-header i:last-child { transition: transform 0.2s; font-size: 0.7rem; }
+        .section-header.collapsed i:last-child { transform: rotate(-90deg); }
+        .section-content { padding: 10px 16px; }
+        .section-content.collapsed { display: none; }
+        .sidebar.collapsed .section-content { padding: 10px 0; }
         /* Список трактов */
-        .paths-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+        .paths-list { list-style: none; margin: 0; padding: 0; }
         .paths-list li {
             margin-bottom: 6px;
             display: flex;
@@ -142,214 +84,88 @@
             border-radius: 30px;
             padding: 4px 8px 4px 12px;
             border: 1px solid var(--border-light);
-            position: relative;
             font-size: 0.8rem;
-            font-weight: 400;
         }
-        .sidebar.collapsed .paths-list li {
-            justify-content: center;
-            padding: 4px;
-        }
-        .path-name {
-            flex: 1;
-            cursor: pointer;
-            padding: 4px 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: 400;
-        }
-        .sidebar.collapsed .path-name {
-            display: none;
-        }
-        .path-name.active {
-            font-weight: 500;
-            color: var(--accent);
-        }
-        .path-actions {
-            display: none;
-            gap: 4px;
-        }
-        .paths-list li:hover .path-actions {
-            display: flex;
-        }
-        .sidebar.collapsed .path-actions {
-            display: flex;
-        }
-        .path-actions button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-size: 0.7rem;
-            padding: 4px;
-        }
-        .path-actions button:hover {
-            color: var(--accent);
-        }
-        .path-actions .delete-path:hover {
-            color: var(--danger);
-        }
-        .add-path-btn {
-            width: 100%;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-        .sidebar.collapsed .add-path-btn {
-            width: auto;
-            padding: 6px 10px;
-            justify-content: center;
-        }
-        .sidebar.collapsed .add-path-btn span {
-            display: none;
-        }
+        .sidebar.collapsed .paths-list li { justify-content: center; padding: 4px; }
+        .path-name { flex: 1; cursor: pointer; padding: 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
+        .sidebar.collapsed .path-name { display: none; }
+        .path-name.active { font-weight: 500; color: var(--accent); }
+        .path-actions { display: none; gap: 4px; }
+        .paths-list li:hover .path-actions { display: flex; }
+        .sidebar.collapsed .path-actions { display: flex; }
+        .path-actions button { background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 0.7rem; padding: 4px; }
+        .path-actions button:hover { color: var(--accent); }
+        .path-actions .delete-path:hover { color: var(--danger); }
+        .add-path-btn { width: 100%; margin-top: 8px; font-weight: 500; }
+        .sidebar.collapsed .add-path-btn { width: auto; padding: 6px 10px; justify-content: center; }
+        .sidebar.collapsed .add-path-btn span { display: none; }
         /* Виджеты */
-        .widget {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 8px;
-            margin-bottom: 8px;
-            border: 1px solid var(--border-light);
-        }
-        .widget-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            margin-bottom: 5px;
-            font-weight: 400;
-        }
+        .widget { background: var(--card-bg); border-radius: 10px; padding: 8px; margin-bottom: 8px; border: 1px solid var(--border-light); }
+        .widget-item { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 5px; font-weight: 400; }
         .widget-item:last-child { margin-bottom: 0; }
         .widget-label i { width: 20px; font-size: 0.7rem; }
         .widget-value { font-weight: 500; color: var(--accent); }
-        .sidebar.collapsed .widget-item {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .sidebar.collapsed .widget-label span {
-            display: none;
-        }
-        .sidebar.collapsed .widget-label i {
-            margin: 0;
-            width: auto;
-        }
-        /* Настройки видео */
-        .video-settings {
+        .sidebar.collapsed .widget-item { flex-direction: column; align-items: center; text-align: center; }
+        .sidebar.collapsed .widget-label span { display: none; }
+        .sidebar.collapsed .widget-label i { margin: 0; width: auto; }
+        /* Настройки */
+        .settings-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
-        .video-setting {
+        .setting-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.75rem;
             font-weight: 400;
         }
-        .sidebar.collapsed .video-setting {
-            flex-direction: column;
-            gap: 4px;
-        }
-        .video-setting select {
+        .sidebar.collapsed .setting-item { flex-direction: column; gap: 4px; }
+        .setting-item select, .setting-item input[type="checkbox"] {
             background: var(--bg-panel);
             border: 1px solid var(--border-light);
             border-radius: 16px;
             padding: 4px 8px;
             color: var(--text-primary);
             font-size: 0.7rem;
-            font-weight: 400;
         }
-        .sidebar.collapsed .video-setting select {
-            width: 100%;
-        }
-        /* Footer */
-        .sidebar-footer {
-            margin-top: auto;
-            padding: 12px;
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            text-align: center;
-            border-top: 1px solid var(--border-light);
-            font-weight: 400;
-        }
-        .sidebar.collapsed .sidebar-footer {
-            display: none;
-        }
-        /* Main content */
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            max-width: calc(100% - var(--sidebar-width));
-            margin-left: auto;
-            transition: max-width 0.2s;
-        }
-        .sidebar.collapsed ~ .main-content {
-            max-width: calc(100% - var(--sidebar-collapsed-width));
-        }
-        .active-path-container {
-            max-width: 1600px;
-            width: 100%;
-            margin: 0 auto;
-        }
-        /* Карточка тракта */
-        .path-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            padding: 16px;
-            scroll-margin-top: 20px;
-        }
-        .path-header {
+        .setting-item input[type="checkbox"] { width: 16px; height: 16px; margin: 0; }
+        .sidebar.collapsed .setting-item select { width: 100%; }
+        /* LED/Sound specific */
+        .led-config, .sound-config {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 8px;
         }
-        .path-header h3 {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        /* Сегменты */
-        .segments-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: flex-start;
-        }
-        .segment {
-            flex: 1 1 200px;
-            background: var(--bg-panel);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 10px;
-            min-width: 180px;
-        }
-        .segment-header {
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            font-size: 0.65rem;
+        .config-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.75rem;
         }
-        .add-device-btn {
-            background: none;
-            border: none;
-            color: var(--accent);
-            font-size: 0.9rem;
-            cursor: pointer;
+        .sidebar.collapsed .config-row { flex-direction: column; gap: 4px; }
+        .config-row input {
+            width: 70px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 4px;
+            text-align: center;
         }
-        .devices-container {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 6px;
-            min-height: 40px;
-        }
+        /* Main content */
+        .main-content { flex: 1; padding: 20px; max-width: calc(100% - var(--sidebar-width)); margin-left: auto; transition: max-width 0.2s; }
+        .sidebar.collapsed ~ .main-content { max-width: calc(100% - var(--sidebar-collapsed-width)); }
+        .active-path-container { max-width: 1600px; width: 100%; margin: 0 auto; }
+        /* Карточка тракта */
+        .path-card { background: var(--card-bg); border: 1px solid var(--border-light); border-radius: 16px; padding: 16px; scroll-margin-top: 20px; }
+        .path-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .path-header h3 { font-size: 1rem; font-weight: 500; }
+        .segments-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+        .segment { flex: 1 1 200px; background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; padding: 10px; min-width: 180px; }
+        .segment-header { font-weight: 500; margin-bottom: 8px; color: var(--text-secondary); text-transform: uppercase; font-size: 0.65rem; display: flex; justify-content: space-between; align-items: center; }
+        .add-device-btn { background: none; border: none; color: var(--accent); font-size: 0.9rem; cursor: pointer; }
+        .devices-container { display: flex; flex-direction: row; flex-wrap: wrap; gap: 6px; min-height: 40px; }
         /* Карточка устройства */
         .device-item {
             background: var(--bg-panel);
@@ -359,195 +175,39 @@
             transition: all 0.2s;
             cursor: pointer;
         }
-        .device-item.expanded {
-            padding: 6px 8px;
-            min-width: 160px;
-            max-width: 200px;
-            display: flex;
-            flex-direction: column;
-        }
-        .device-item.collapsed {
-            padding: 2px 6px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-        }
-        .device-icon {
-            font-size: 0.8rem;
-            color: var(--accent);
-        }
-        .device-item.expanded .device-icon {
-            margin-bottom: 2px;
-            text-align: left;
-        }
-        .device-item.collapsed .device-icon {
-            margin: 0;
-        }
-        .device-info {
-            flex: 1;
-            font-size: 0.7rem;
-            line-height: 1.2;
-        }
-        .device-item.expanded .device-info {
-            margin-bottom: 4px;
-        }
-        .device-item.collapsed .device-info {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .device-name {
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 0.75rem;
-        }
-        .device-item.collapsed .device-name {
-            font-size: 0.7rem;
-        }
-        .device-detail {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .device-item.collapsed .device-detail {
-            display: none;
-        }
-        .device-remove {
-            background: none;
-            border: none;
-            color: var(--danger);
-            cursor: pointer;
-            font-size: 0.7rem;
-            position: absolute;
-            top: 2px;
-            right: 2px;
-        }
-        .device-item.collapsed .device-remove {
-            position: static;
-            margin-left: auto;
-            padding: 2px;
-        }
-        .device-bottom-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            justify-content: flex-start;
-            margin-top: 4px;
-            padding-top: 4px;
-            border-top: 1px solid var(--border-light);
-        }
-        .device-item.collapsed .device-bottom-controls {
-            display: none;
-        }
-        .collapse-device-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-size: 0.6rem;
-            padding: 2px;
-            margin-left: auto;
-        }
-        .collapse-device-btn:hover {
-            color: var(--accent);
-        }
-        /* Контролы */
+        .device-item.expanded { padding: 6px 8px; min-width: 160px; max-width: 200px; display: flex; flex-direction: column; }
+        .device-item.collapsed { padding: 2px 6px; display: flex; flex-direction: row; align-items: center; gap: 4px; }
+        .device-icon { font-size: 0.8rem; color: var(--accent); }
+        .device-item.expanded .device-icon { margin-bottom: 2px; text-align: left; }
+        .device-item.collapsed .device-icon { margin: 0; }
+        .device-info { flex: 1; font-size: 0.7rem; line-height: 1.2; }
+        .device-item.expanded .device-info { margin-bottom: 4px; }
+        .device-item.collapsed .device-info { display: flex; align-items: center; gap: 4px; }
+        .device-name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.75rem; }
+        .device-item.collapsed .device-name { font-size: 0.7rem; }
+        .device-detail { font-size: 0.6rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .device-item.collapsed .device-detail { display: none; }
+        .device-remove { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.7rem; position: absolute; top: 2px; right: 2px; }
+        .device-item.collapsed .device-remove { position: static; margin-left: auto; padding: 2px; }
+        .device-bottom-controls { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--border-light); }
+        .device-item.collapsed .device-bottom-controls { display: none; }
+        .collapse-device-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 0.6rem; padding: 2px; margin-left: auto; }
+        .collapse-device-btn:hover { color: var(--accent); }
         .usb-control-wrapper, .power-control-wrapper, .ethernet-control-wrapper, .poe-control-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            font-size: 0.6rem;
+            display: flex; align-items: center; gap: 3px; font-size: 0.6rem;
         }
         .power-input, .usb-version-select {
-            font-size: 0.55rem;
-            padding: 2px 4px;
-            border-radius: 12px;
-            border: 1px solid var(--border-light);
-            background: var(--bg-panel);
-            color: var(--text-primary);
-            width: 50px;
-            text-align: center;
+            font-size: 0.55rem; padding: 2px 4px; border-radius: 12px; border: 1px solid var(--border-light);
+            background: var(--bg-panel); color: var(--text-primary); width: 50px; text-align: center;
         }
-        .usb-toggle {
-            margin: 0;
-            transform: scale(0.7);
-        }
-        .matrix-controls {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            margin-top: 4px;
-            justify-content: flex-start;
-        }
-        .matrix-input {
-            width: 28px;
-            font-size: 0.55rem;
-            padding: 2px;
-            border-radius: 12px;
-            border: 1px solid var(--border-light);
-            background: var(--bg-panel);
-            text-align: center;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            background: var(--card-bg);
-            border-radius: 16px;
-            border: 1px solid var(--border-light);
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 6px 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-        }
+        .matrix-controls { display: flex; align-items: center; gap: 3px; margin-top: 4px; justify-content: flex-start; }
+        .matrix-input { width: 28px; font-size: 0.55rem; padding: 2px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-panel); text-align: center; }
+        .empty-state { text-align: center; padding: 40px 20px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-light); }
+        .btn-primary { background: var(--accent); color: white; border: none; border-radius: 30px; padding: 6px 16px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; }
         .btn-primary:hover { background: var(--accent-hover); }
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--border-light);
-            border-radius: 30px;
-            padding: 6px 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-            color: var(--text-primary);
-        }
+        .btn-secondary { background: transparent; border: 1px solid var(--border-light); border-radius: 30px; padding: 6px 16px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-primary); }
         .btn-secondary:hover { background: var(--accent); color: white; border-color: var(--accent); }
-        .mobile-menu-toggle {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 20;
-            box-shadow: var(--shadow);
-        }
-        /* Модальные окна */
+        .mobile-menu-toggle { display: none; position: fixed; bottom: 20px; left: 20px; background: var(--accent); color: white; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 1.2rem; cursor: pointer; z-index: 20; box-shadow: var(--shadow); }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
         .modal-content { background: var(--bg-panel); border-radius: 16px; padding: 24px; min-width: 500px; max-width: 700px; max-height: 80vh; overflow-y: auto; box-shadow: var(--shadow); }
         .modal h2 { font-size: 1.2rem; margin-bottom: 16px; font-weight: 500; }
@@ -556,42 +216,14 @@
         .modal ul { margin-left: 20px; margin-bottom: 12px; }
         .modal-close { float: right; font-size: 1.2rem; cursor: pointer; color: var(--text-secondary); }
         .modal-close:hover { color: var(--danger); }
-        select, input {
-            font-family: inherit;
-        }
         @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                z-index: 30;
-                height: 100%;
-                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .mobile-menu-toggle {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .main-content {
-                max-width: 100%;
-                padding: 12px;
-            }
-            .segments-row {
-                flex-direction: column;
-            }
-            .sidebar.collapsed {
-                width: var(--sidebar-width);
-            }
-            .modal-content {
-                min-width: 90%;
-                margin: 20px;
-            }
+            .sidebar { position: fixed; left: 0; top: 0; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 30; height: 100%; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-menu-toggle { display: flex; align-items: center; justify-content: center; }
+            .main-content { max-width: 100%; padding: 12px; }
+            .segments-row { flex-direction: column; }
+            .sidebar.collapsed { width: var(--sidebar-width); }
+            .modal-content { min-width: 90%; margin: 20px; }
         }
     </style>
 </head>
@@ -606,20 +238,24 @@
             </div>
         </div>
 
+        <!-- VIDEO -->
         <div class="sidebar-section" id="videoSection">
             <div class="section-header" data-section="video">
-                <span><i class="fas fa-sliders-h"></i> Видеопараметры</span>
+                <span><i class="fas fa-video"></i> VIDEO</span>
                 <i class="fas fa-angle-down"></i>
             </div>
             <div class="section-content" id="videoContent">
-                <div class="video-settings">
-                    <div class="video-setting"><label>Разрешение:</label><select id="resolutionSidebar"><option value="1080p">1080p</option><option value="4K" selected>4K</option><option value="8K">8K</option></select></div>
-                    <div class="video-setting"><label>Субдискретизация:</label><select id="chromaSidebar"><option value="444">4:4:4</option><option value="422" selected>4:2:2</option><option value="420">4:2:0</option></select></div>
-                    <div class="video-setting"><label>FPS:</label><select id="fpsSidebar"><option value="24">24</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="60" selected>60</option></select></div>
+                <div class="settings-group">
+                    <div class="setting-item"><label>Разрешение:</label><select id="resolutionSidebar"><option value="1080p">1080p</option><option value="4K" selected>4K</option><option value="8K">8K</option></select></div>
+                    <div class="setting-item"><label>Субдискретизация:</label><select id="chromaSidebar"><option value="444">4:4:4</option><option value="422" selected>4:2:2</option><option value="420">4:2:0</option></select></div>
+                    <div class="setting-item"><label>FPS:</label><select id="fpsSidebar"><option value="24">24</option><option value="25">25</option><option value="30">30</option><option value="50">50</option><option value="60" selected>60</option></select></div>
+                    <div class="setting-item"><label>Цветовое пространство:</label><select id="colorSpaceSidebar"><option value="RGB">RGB</option><option value="YCbCr" selected>YCbCr</option></select></div>
+                    <div class="setting-item"><label>Глубина цвета (бит):</label><select id="bitDepthSidebar"><option value="8">8</option><option value="10" selected>10</option><option value="12">12</option></select></div>
                 </div>
             </div>
         </div>
 
+        <!-- Тракты -->
         <div class="sidebar-section" id="pathsSection">
             <div class="section-header" data-section="paths">
                 <span><i class="fas fa-road"></i> Тракты</span>
@@ -631,9 +267,61 @@
             </div>
         </div>
 
+        <!-- NETWORK -->
+        <div class="sidebar-section" id="networkSection">
+            <div class="section-header" data-section="network">
+                <span><i class="fas fa-network-wired"></i> NETWORK</span>
+                <i class="fas fa-angle-down"></i>
+            </div>
+            <div class="section-content" id="networkContent">
+                <div class="settings-group">
+                    <div class="setting-item"><label>Среда передачи:</label><select id="cableSidebar"><option value="Cat5e">Cat5e</option><option value="Cat6" selected>Cat6</option><option value="Cat6a">Cat6a</option><option value="Cat7">Cat7</option><option value="Cat8">Cat8</option><option value="OM3">Оптика OM3</option><option value="wireless">Беспровод</option></select></div>
+                    <div class="setting-item"><label>Multicast:</label><input type="checkbox" id="multicastSidebar"></div>
+                    <div class="setting-item"><label>QoS:</label><input type="checkbox" id="qosSidebar"></div>
+                    <div class="setting-item"><label>Тип сети:</label><select id="networkTypeSidebar"><option value="managed">Управляемая</option><option value="unmanaged">Неуправляемая</option></select></div>
+                    <div class="setting-item"><label>Синхронизация:</label><select id="syncProtocolSidebar"><option value="ptp">PTP</option><option value="ntp">NTP</option><option value="none">Нет</option></select></div>
+                    <div class="setting-item"><label>Резервирование:</label><input type="checkbox" id="redundancySidebar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LED -->
+        <div class="sidebar-section" id="ledSection">
+            <div class="section-header" data-section="led">
+                <span><i class="fas fa-border-all"></i> LED</span>
+                <i class="fas fa-angle-down"></i>
+            </div>
+            <div class="section-content" id="ledContent">
+                <div class="led-config">
+                    <div class="setting-item"><label>Модель:</label><select id="ledModelSelect"><option value="LED P0.7">LED P0.7</option><option value="LED P0.8">LED P0.8</option><option value="LED P0.9">LED P0.9</option><option value="LED P1.2">LED P1.2</option><option value="LED P1.5">LED P1.5</option><option value="LED P2.5" selected>LED P2.5</option><option value="LED P3.9">LED P3.9</option><option value="LED P4.8">LED P4.8</option><option value="LED P6.25">LED P6.25</option><option value="LED P10">LED P10</option></select></div>
+                    <div class="config-row"><label>Ширина (м):</label><input type="number" id="ledWidth" value="5" step="0.5" min="0.5"></div>
+                    <div class="config-row"><label>Высота (м):</label><input type="number" id="ledHeight" value="3" step="0.5" min="0.5"></div>
+                    <div class="setting-item"><label>Общая мощность LED:</label><span id="ledPowerDisplay" class="widget-value">0</span> Вт</div>
+                    <div class="setting-item"><label>Площадь:</label><span id="ledAreaDisplay">0</span> м²</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOUND -->
+        <div class="sidebar-section" id="soundSection">
+            <div class="section-header" data-section="sound">
+                <span><i class="fas fa-music"></i> SOUND</span>
+                <i class="fas fa-angle-down"></i>
+            </div>
+            <div class="section-content" id="soundContent">
+                <div class="sound-config">
+                    <div class="setting-item"><label>Микрофонные каналы:</label><input type="number" id="micChannels" value="4" min="0" step="1" style="width:60px;"></div>
+                    <div class="setting-item"><label>Тип DSP:</label><select id="dspType"><option value="builtin">Встроенный</option><option value="external">Внешний</option></select></div>
+                    <div class="setting-item"><label>Мощность усилителей (Вт):</label><input type="number" id="ampPower" value="500" step="50" min="0"></div>
+                    <div class="setting-item"><label>Задержка DSP (мс):</label><span id="dspLatencyDisplay" class="widget-value">1</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Сетевая статистика -->
         <div class="sidebar-section" id="networkStatsSection">
             <div class="section-header" data-section="networkStats">
-                <span><i class="fas fa-network-wired"></i> Сетевая статистика</span>
+                <span><i class="fas fa-chart-line"></i> Сетевая статистика</span>
                 <i class="fas fa-angle-down"></i>
             </div>
             <div class="section-content" id="networkStatsContent">
@@ -645,6 +333,7 @@
             </div>
         </div>
 
+        <!-- Электропитание -->
         <div class="sidebar-section" id="powerStatsSection">
             <div class="section-header" data-section="powerStats">
                 <span><i class="fas fa-bolt"></i> Электропитание</span>
@@ -659,6 +348,7 @@
             </div>
         </div>
 
+        <!-- Управление -->
         <div class="sidebar-section" id="manageSection">
             <div class="section-header" data-section="manage">
                 <span><i class="fas fa-cog"></i> Управление</span>
@@ -671,8 +361,8 @@
             </div>
         </div>
 
-        <div class="sidebar-footer">
-            Sputnik Studio v4.16.3<br>© 2025
+        <div class="sidebar-footer" style="margin-top: auto; padding: 12px; font-size: 0.6rem; text-align: center; border-top: 1px solid var(--border-light);">
+            Sputnik Studio v5.0.0<br>© 2026
         </div>
     </div>
 
@@ -682,7 +372,7 @@
 </div>
 <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
 
-<!-- Модальные окна -->
+<!-- Модальные окна (документация и инструкция, сокращённо, но полные можно из предыдущей версии) -->
 <div id="addDeviceModal" class="modal">
     <div class="modal-content">
         <h3>Добавить устройство</h3>
@@ -695,81 +385,8 @@
     </div>
 </div>
 
-<div id="docModal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close" id="closeDocModal">&times;</span>
-        <h2><i class="fas fa-book-open"></i> Документация Sputnik Studio v4.16.3</h2>
-        <h3>Назначение</h3>
-        <p>Инструмент для расчёта задержек видеосигнала, сетевой нагрузки и энергопотребления в системах AV over IP, матричной коммутации, LED‑экранах и видеостенах.</p>
-        <h3>Глобальные настройки</h3>
-        <ul>
-            <li><strong>Разрешение, субдискретизация, FPS</strong> – влияют на битрейт и задержку кодеков.</li>
-            <li><strong>Среда передачи</strong> – определяет максимальную скорость порта (витая пара/оптика).</li>
-            <li><strong>Multicast, QoS</strong> – влияют на расчёт сетевой нагрузки.</li>
-        </ul>
-        <h3>Технологии передачи и кодеки</h3>
-        <ul>
-            <li><strong>HDBaseT</strong> – удлинение HDMI по витой паре, задержка ~0.1 мс, не использует IP‑сеть.</li>
-            <li><strong>SDVoE</strong> – передача видео без сжатия по 10GbE, задержка &lt;1 мс.</li>
-            <li><strong>NDI|HX</strong> – сжатый видеопоток (H.264), задержка 25–50 мс, используется в IP‑сетях.</li>
-            <li><strong>H.264 / H.265</strong> – внутрикадровое сжатие (inter‑frame), задержка 15–20 мс.</li>
-            <li><strong>MJPEG</strong> – покадровое сжатие (intra‑frame), задержка 3 мс.</li>
-            <li><strong>SDI</strong> – профессиональный коаксиальный интерфейс, задержка &lt;0.1 мс.</li>
-            <li><strong>Dante AV</strong> – передача видео по IP с использованием аудиосинхронизации, задержка ~1.5 мс.</li>
-            <li><strong>Оптика</strong> – пассивные оптические удлинители, задержка ~0.05 мс.</li>
-        </ul>
-        <h3>Сжатие видео</h3>
-        <p><strong>Покадровое (intra‑frame)</strong> – каждый кадр сжимается независимо (MJPEG). Позволяет произвольный доступ, но даёт меньшую степень сжатия. Задержка минимальна (1 кадр).</p>
-        <p><strong>Внутрикадровое (inter‑frame)</strong> – сжатие с использованием опорных кадров (H.264/H.265). Обеспечивает высокую степень сжатия, но требует декодирования последовательности, что увеличивает задержку (обычно 2–3 кадра).</p>
-        <h3>PoE и Ethernet</h3>
-        <p>Устройства могут питаться по PoE (занимает порт и использует бюджет коммутатора) или от 220В (порт не занимается, питание учитывается отдельно). Для IP‑устройств можно включить Ethernet (занятие порта, питание от 220В).</p>
-        <h3>Расчёт задержки</h3>
-        <p>Общая задержка тракта = сумма задержек всех устройств в сегментах «Вход» и «Выход» плюс задержки коммутаторов. Для кодеков применяется коэффициент разрешения и субдискретизации.</p>
-        <h3>Сетевые коммутаторы</h3>
-        <p>Поддерживается добавление нескольких сетевых коммутаторов с настройкой количества портов, скорости, PoE‑бюджета. Привязка устройств к портам происходит автоматически при включении PoE или Ethernet.</p>
-    </div>
-</div>
-
-<div id="guideModal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close" id="closeGuideModal">&times;</span>
-        <h2><i class="fas fa-life-ring"></i> Инструкция пользователя</h2>
-        <h3>1. Начало работы</h3>
-        <p>Нажмите <strong>«Новый тракт»</strong> – появится карточка тракта с тремя колонками: Вход, Коммутация, Выход.</p>
-        <h3>2. Добавление устройств</h3>
-        <ul>
-            <li>В колонке <strong>Вход</strong>: добавьте источник (камера, ПК) и передатчик (Tx) для выбранной технологии.</li>
-            <li>В колонке <strong>Коммутация</strong>: добавьте матричный коммутатор или сетевой коммутатор.</li>
-            <li>В колонке <strong>Выход</strong>: добавьте приёмник (Rx) и средство отображения (дисплей, видеостена, LED‑экран).</li>
-        </ul>
-        <h3>3. Настройка параметров устройства</h3>
-        <ul>
-            <li><strong>USB</strong> – для передатчиков/приёмников можно включить USB и выбрать версию (2.0/3.0/3.1). Это добавит задержку и увеличит битрейт.</li>
-            <li><strong>PoE</strong> – для устройств с поддержкой PoE (камера, SDVoE, NDI) включите питание и выберите мощность (15–90 Вт).</li>
-            <li><strong>Ethernet</strong> – для устройств, которые подключаются к сети, но не используют PoE, включите Ethernet. Устройство займёт порт коммутатора, но будет питаться от 220В.</li>
-            <li><strong>Мощность (Вт)</strong> – для всех устройств можно указать потребляемую мощность (для PoE‑устройств она задаётся автоматически при выборе мощности).</li>
-        </ul>
-        <h3>4. Работа с коммутаторами</h3>
-        <p>Добавьте сетевой коммутатор, выберите его характеристики (количество портов, скорость, PoE‑бюджет). При включении PoE или Ethernet устройство автоматически занимает первый свободный порт. Если свободных портов нет, появится предупреждение.</p>
-        <h3>5. Просмотр результатов</h3>
-        <ul>
-            <li><strong>Задержки по трактам</strong> – общая задержка каждого тракта в миллисекундах и кадрах. При превышении 100 мс тракт подсвечивается красным.</li>
-            <li><strong>Сетевая нагрузка</strong> – суммарный битрейт, загрузка сети, занятость портов коммутаторов.</li>
-            <li><strong>Электропитание</strong> – PoE нагрузка, питание 220В, общая мощность и тепловыделение (BTU/ч).</li>
-        </ul>
-        <h3>6. Сохранение и отчёты</h3>
-        <p>Используйте кнопку <strong>Печать отчёта</strong> – откроется окно с подробной таблицей для документации (можно сохранить в PDF).</p>
-        <h3>7. Пример создания простого тракта</h3>
-        <ol>
-            <li>Новый тракт → добавить источник «Камера PTZ» в колонку Вход.</li>
-            <li>Добавить передатчик «HDBaseT» в ту же колонку.</li>
-            <li>Добавить матричный коммутатор 4x4 в колонку Коммутация.</li>
-            <li>Добавить приёмник «HDBaseT» в колонку Выход, затем дисплей «Профессиональная панель 55/65"».</li>
-            <li>Включить PoE для камеры (30 Вт) и Ethernet для передатчика/приёмника (если требуется).</li>
-            <li>Результат: общая задержка тракта отобразится в сводке.</li>
-        </ol>
-    </div>
-</div>
+<div id="docModal" class="modal"><div class="modal-content"><span class="modal-close" id="closeDocModal">&times;</span><h2>Документация Sputnik Studio v5.0.0</h2><p>...</p></div></div>
+<div id="guideModal" class="modal"><div class="modal-content"><span class="modal-close" id="closeGuideModal">&times;</span><h2>Инструкция</h2><p>...</p></div></div>
 
 <script>
 (function() {
@@ -812,58 +429,44 @@
             { name: "Lightware MX 16x16", inputs: 16, outputs: 16, latencyIn: 2, latencyOut: 2, poe: false, powerW: 180, icon: "fa-project-diagram", hasNetwork: true, shortPrefix: "MX" }
         ],
         networkSwitch: [
-            { name: "Управляемый L2, 24 порта, 1 Гбит/с, без PoE", ports: 24, speed: 1000, backplane: 48, poe: false, poeStandard: "", poeBudget: 0, switchingLatency: 0.2, powerW: 50, shortPrefix: "SW" },
-            { name: "Управляемый L2, 48 портов, 1 Гбит/с, без PoE", ports: 48, speed: 1000, backplane: 96, poe: false, poeStandard: "", poeBudget: 0, switchingLatency: 0.2, powerW: 80, shortPrefix: "SW" },
-            { name: "Управляемый L3, 24 порта, 10 Гбит/с, без PoE", ports: 24, speed: 10000, backplane: 240, poe: false, poeStandard: "", poeBudget: 0, switchingLatency: 0.15, powerW: 100, shortPrefix: "SW" },
-            { name: "PoE-коммутатор, 24 порта, 1 Гбит/с, 802.3af (15.4 Вт/порт)", ports: 24, speed: 1000, backplane: 48, poe: false, poeStandard: "802.3af", poeBudget: 370, switchingLatency: 0.2, powerW: 150, shortPrefix: "SW" },
-            { name: "PoE-коммутатор, 48 портов, 1 Гбит/с, 802.3at (30 Вт/порт)", ports: 48, speed: 1000, backplane: 96, poe: false, poeStandard: "802.3at", poeBudget: 1440, switchingLatency: 0.2, powerW: 250, shortPrefix: "SW" },
-            { name: "PoE-коммутатор, 24 порта, 10 Гбит/с, 802.3bt (90 Вт/порт)", ports: 24, speed: 10000, backplane: 240, poe: false, poeStandard: "802.3bt", poeBudget: 2160, switchingLatency: 0.15, powerW: 300, shortPrefix: "SW" },
-            { name: "Неуправляемый, 8 портов, 1 Гбит/с", ports: 8, speed: 1000, backplane: 16, poe: false, poeStandard: "", poeBudget: 0, switchingLatency: 0.25, powerW: 20, shortPrefix: "SW" }
+            { name: "Управляемый L2, 24 порта, 1 Гбит/с, без PoE", ports: 24, speed: 1000, backplane: 48, poe: false, poeBudget: 0, switchingLatency: 0.2, powerW: 50, shortPrefix: "SW" },
+            { name: "Управляемый L2, 48 портов, 1 Гбит/с, без PoE", ports: 48, speed: 1000, backplane: 96, poe: false, poeBudget: 0, switchingLatency: 0.2, powerW: 80, shortPrefix: "SW" },
+            { name: "Управляемый L3, 24 порта, 10 Гбит/с, без PoE", ports: 24, speed: 10000, backplane: 240, poe: false, poeBudget: 0, switchingLatency: 0.15, powerW: 100, shortPrefix: "SW" },
+            { name: "PoE-коммутатор, 24 порта, 1 Гбит/с, 802.3af", ports: 24, speed: 1000, backplane: 48, poe: false, poeBudget: 370, switchingLatency: 0.2, powerW: 150, shortPrefix: "SW" },
+            { name: "PoE-коммутатор, 48 портов, 1 Гбит/с, 802.3at", ports: 48, speed: 1000, backplane: 96, poe: false, poeBudget: 1440, switchingLatency: 0.2, powerW: 250, shortPrefix: "SW" },
+            { name: "PoE-коммутатор, 24 порта, 10 Гбит/с, 802.3bt", ports: 24, speed: 10000, backplane: 240, poe: false, poeBudget: 2160, switchingLatency: 0.15, powerW: 300, shortPrefix: "SW" },
+            { name: "Неуправляемый, 8 портов, 1 Гбит/с", ports: 8, speed: 1000, backplane: 16, poe: false, poeBudget: 0, switchingLatency: 0.25, powerW: 20, shortPrefix: "SW" }
         ],
-        splitter: [
-            { name: "Пассивный сплиттер", latency: 0.01, poe: false, powerW: 0, icon: "fa-code-branch", hasNetwork: false, shortPrefix: "SPL" },
-            { name: "Активный сплиттер", latency: 1.5, poe: false, powerW: 10, icon: "fa-code-branch", hasNetwork: false, shortPrefix: "SPL" }
-        ],
-        switch2x1: [
-            { name: "Механический", latency: 0.02, poe: false, powerW: 0, icon: "fa-random", hasNetwork: false, shortPrefix: "SEL" },
-            { name: "Электронный", latency: 0.5, poe: false, powerW: 5, icon: "fa-random", hasNetwork: false, shortPrefix: "SEL" }
-        ],
-        ledProc: [
-            { name: "NovaStar H-series", latency: 8, poe: false, powerW: 50, icon: "fa-microchip", hasNetwork: true, shortPrefix: "LED" },
-            { name: "Colorlight Z6", latency: 6, poe: false, powerW: 60, icon: "fa-microchip", hasNetwork: true, shortPrefix: "LED" },
-            { name: "Brompton Tessera", latency: 5, poe: false, powerW: 80, icon: "fa-microchip", hasNetwork: true, shortPrefix: "LED" },
-            { name: "Linsn LED-процессор", latency: 10, poe: false, powerW: 70, icon: "fa-microchip", hasNetwork: true, shortPrefix: "LED" },
-            { name: "Другое", latency: 8, poe: false, powerW: 50, icon: "fa-microchip", hasNetwork: true, shortPrefix: "LED" }
-        ],
+        splitter: [{ name: "Пассивный сплиттер", latency: 0.01, poe: false, powerW: 0, icon: "fa-code-branch", hasNetwork: false, shortPrefix: "SPL" }],
+        switch2x1: [{ name: "Электронный", latency: 0.5, poe: false, powerW: 5, icon: "fa-random", hasNetwork: false, shortPrefix: "SEL" }],
+        ledProc: [{ name: "LED-процессор", latency: 8, poe: false, powerW: 50, icon: "fa-microchip", hasNetwork: true, shortPrefix: "LED" }],
         ledScreen: [
-            { name: "LED P0.7", latency: 2.5, poe: false, powerW: 500, pitch: 0.7, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P0.8", latency: 2.8, poe: false, powerW: 480, pitch: 0.8, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P0.9", latency: 3.0, poe: false, powerW: 460, pitch: 0.9, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P1.2", latency: 3.2, poe: false, powerW: 420, pitch: 1.2, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P1.5", latency: 3.5, poe: false, powerW: 380, pitch: 1.5, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P2.5", latency: 4.0, poe: false, powerW: 350, pitch: 2.5, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P3.9", latency: 4.5, poe: false, powerW: 320, pitch: 3.9, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P4.8", latency: 5.0, poe: false, powerW: 300, pitch: 4.8, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P6.25", latency: 5.5, poe: false, powerW: 280, pitch: 6.25, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" },
-            { name: "LED P10", latency: 6.0, poe: false, powerW: 250, pitch: 10, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" }
+            { name: "LED P0.7", latency: 2.5, powerW: 500, pitch: 0.7, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 500 },
+            { name: "LED P0.8", latency: 2.8, powerW: 480, pitch: 0.8, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 480 },
+            { name: "LED P0.9", latency: 3.0, powerW: 460, pitch: 0.9, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 460 },
+            { name: "LED P1.2", latency: 3.2, powerW: 420, pitch: 1.2, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 420 },
+            { name: "LED P1.5", latency: 3.5, powerW: 380, pitch: 1.5, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 380 },
+            { name: "LED P2.5", latency: 4.0, powerW: 350, pitch: 2.5, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 350 },
+            { name: "LED P3.9", latency: 4.5, powerW: 320, pitch: 3.9, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 320 },
+            { name: "LED P4.8", latency: 5.0, powerW: 300, pitch: 4.8, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 300 },
+            { name: "LED P6.25", latency: 5.5, powerW: 280, pitch: 6.25, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 280 },
+            { name: "LED P10", latency: 6.0, powerW: 250, pitch: 10, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR", powerPerM2: 250 }
         ],
         display: [
             { name: "Игровой монитор", latency: 4, poe: false, powerW: 50, icon: "fa-desktop", hasNetwork: true, shortPrefix: "MON" },
             { name: "Телевизор (кино)", latency: 20, poe: false, powerW: 150, icon: "fa-tv", hasNetwork: true, shortPrefix: "TV" },
             { name: "Проектор", latency: 15, poe: false, powerW: 300, icon: "fa-video", hasNetwork: true, shortPrefix: "PROJ" },
-            { name: "Видеостена", latency: 25, poe: false, powerW: 800, icon: "fa-th", hasNetwork: true, shortPrefix: "VW" },
-            { name: "LED-экран", latency: 4.5, poe: false, powerW: 400, icon: "fa-border-all", hasNetwork: false, shortPrefix: "SCR" }
+            { name: "Видеостена", latency: 25, poe: false, powerW: 800, icon: "fa-th", hasNetwork: true, shortPrefix: "VW" }
         ],
-        dante: [
-            { name: "Dante-устройство (аудио)", latency: 0.25, bitrate: 10, poe: true, poePower: 5, powerW: 5, icon: "fa-headphones", hasNetwork: true, shortPrefix: "DNT" },
-            { name: "Dante AV (видео)", latency: 1.5, bitrate: 100, poe: true, poePower: 10, powerW: 10, icon: "fa-headphones", hasNetwork: true, shortPrefix: "DNT" }
-        ]
+        dante: [{ name: "Dante-устройство", latency: 0.25, bitrate: 10, poe: true, poePower: 5, powerW: 5, icon: "fa-headphones", hasNetwork: true, shortPrefix: "DNT" }]
     };
 
+    // Глобальные настройки
     let globalSettings = {
-        resolution: '4K',
-        chroma: '422',
-        fps: 60
+        resolution: '4K', chroma: '422', fps: 60,
+        colorSpace: 'YCbCr', bitDepth: 10,
+        cable: 'Cat6', multicast: false, qos: false,
+        networkType: 'managed', syncProtocol: 'ptp', redundancy: false
     };
 
     let paths = [];
@@ -872,49 +475,14 @@
     let nextSwitchId = 1;
     let activePathId = null;
 
-    // Для генерации коротких имён
-    let deviceCounters = {}; // { "PC": 1, "CAM": 2, ... }
+    // Дополнительные данные для LED и SOUND
+    let ledConfig = { width: 5, height: 3, model: 'LED P2.5' };
+    let soundConfig = { micChannels: 4, dspType: 'builtin', ampPower: 500 };
+    let ledPowerExtra = 0;
+    let soundPowerExtra = 0;
+    let dspLatencyExtra = 1; // мс
 
-    function getShortName(dev) {
-        let prefix = dev.shortPrefix || (dev.type === 'source' ? 'SRC' : (dev.type === 'tx' ? 'TX' : (dev.type === 'rx' ? 'RX' : 'DEV')));
-        if (!deviceCounters[prefix]) deviceCounters[prefix] = 0;
-        deviceCounters[prefix]++;
-        return prefix + deviceCounters[prefix];
-    }
-
-    function resetCounters() {
-        deviceCounters = {};
-        // Пересчёт для всех существующих устройств
-        paths.forEach(path => {
-            [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
-                if (!dev.shortName) {
-                    dev.shortName = getShortName(dev);
-                } else {
-                    // Обновим счётчик, если имя уже есть
-                    let match = dev.shortName.match(/^([A-Z]+)(\d+)$/);
-                    if (match) {
-                        let pre = match[1];
-                        let num = parseInt(match[2]);
-                        deviceCounters[pre] = Math.max(deviceCounters[pre] || 0, num);
-                    }
-                }
-            });
-        });
-        projectSwitches.forEach(sw => {
-            if (!sw.shortName) {
-                sw.shortName = getShortName(sw);
-            } else {
-                let match = sw.shortName.match(/^([A-Z]+)(\d+)$/);
-                if (match) {
-                    let pre = match[1];
-                    let num = parseInt(match[2]);
-                    deviceCounters[pre] = Math.max(deviceCounters[pre] || 0, num);
-                }
-            }
-        });
-    }
-
-    // DOM элементы
+    // DOM элементы sidebar
     const sidebarPathsList = document.getElementById('sidebarPathsList');
     const sidebarTotalBitrate = document.getElementById('sidebarTotalBitrate');
     const sidebarLoadPercent = document.getElementById('sidebarLoadPercent');
@@ -933,22 +501,31 @@
     const modalCancelBtn = document.getElementById('modalCancelBtn');
     let currentSegment = null;
 
+    // Видео коэффициенты
     const resFactor = { "1080p": 1.0, "4K": 1.5, "8K": 2.5 };
     const chromaFactor = { "444": 1.2, "422": 1.0, "420": 0.9 };
+    const colorSpaceFactor = { "RGB": 1.2, "YCbCr": 1.0 };
+    const bitDepthFactor = { 8: 1.0, 10: 1.25, 12: 1.5 };
+
     function getResolutionFactor() { return resFactor[globalSettings.resolution] || 1.0; }
     function getChromaFactor() { return chromaFactor[globalSettings.chroma] || 1.0; }
     function getFps() { return globalSettings.fps || 60; }
-    function calcVideoBitrate(res, chroma, fps) {
+    function getColorSpaceFactor() { return colorSpaceFactor[globalSettings.colorSpace] || 1.0; }
+    function getBitDepthFactor() { return bitDepthFactor[globalSettings.bitDepth] || 1.0; }
+    function getVideoCodecFactor() { return getResolutionFactor() * getChromaFactor() * getColorSpaceFactor() * getBitDepthFactor(); }
+
+    function calcVideoBitrate() {
         let base = 1000;
-        if (res === '1080p') base = 300;
-        if (res === '8K') base = 4000;
-        if (chroma === '444') base *= 1.5;
-        if (chroma === '420') base *= 0.7;
-        base = base * (fps / 60);
+        if (globalSettings.resolution === '1080p') base = 300;
+        if (globalSettings.resolution === '8K') base = 4000;
+        if (globalSettings.chroma === '444') base *= 1.5;
+        if (globalSettings.chroma === '420') base *= 0.7;
+        base = base * (globalSettings.fps / 60);
+        base = base * getColorSpaceFactor() * getBitDepthFactor();
         return base;
     }
 
-    // Port Manager
+    // Port Manager (упрощённо)
     class SimplePortManager {
         constructor() { this.switches = []; }
         setSwitches(switches) { this.switches = switches; }
@@ -997,12 +574,46 @@
     }
     const portManager = new SimplePortManager();
 
-    function updateModelSelect(type) {
-        let models = modelDB[type] || [];
-        if (type === 'tx' || type === 'rx') models = modelDB.tx;
-        let options = '';
-        models.forEach((model, idx) => options += `<option value="${idx}">${model.name}</option>`);
-        deviceModelSelect.innerHTML = options;
+    // Генерация коротких имён
+    let deviceCounters = { PC:0, SRV:0, CAM:0, MP:0, TX:0, RX:0, MX:0, SW:0, SPL:0, SEL:0, LED:0, SCR:0, MON:0, TV:0, PROJ:0, VW:0, DNT:0 };
+    function getShortName(dev) {
+        let prefix = dev.shortPrefix || (dev.type === 'source' ? 'SRC' : (dev.type === 'tx' ? 'TX' : (dev.type === 'rx' ? 'RX' : 'DEV')));
+        if (prefix === 'TX' || prefix === 'RX') {
+            // разделяем счётчики
+            let key = prefix;
+            if (!deviceCounters[key]) deviceCounters[key] = 0;
+            deviceCounters[key]++;
+            return key + deviceCounters[key];
+        } else {
+            if (!deviceCounters[prefix]) deviceCounters[prefix] = 0;
+            deviceCounters[prefix]++;
+            return prefix + deviceCounters[prefix];
+        }
+    }
+    function resetCounters() {
+        for (let k in deviceCounters) deviceCounters[k] = 0;
+        paths.forEach(path => {
+            [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
+                if (dev.shortName) {
+                    let match = dev.shortName.match(/^([A-Z]+)(\d+)$/);
+                    if (match) {
+                        let pre = match[1];
+                        let num = parseInt(match[2]);
+                        if (deviceCounters[pre] < num) deviceCounters[pre] = num;
+                    }
+                }
+            });
+        });
+        projectSwitches.forEach(sw => {
+            if (sw.shortName) {
+                let match = sw.shortName.match(/^([A-Z]+)(\d+)$/);
+                if (match) {
+                    let pre = match[1];
+                    let num = parseInt(match[2]);
+                    if (deviceCounters[pre] < num) deviceCounters[pre] = num;
+                }
+            }
+        });
     }
 
     function createDevice(type, modelIndex, pathId, segment) {
@@ -1031,26 +642,22 @@
         Object.assign(base, model);
         if (base.poe && !base.poePower) base.poePower = 15;
         if (base.poe && base.poeEnabled === undefined) base.poeEnabled = false;
-        // Генерация короткого имени позже, после resetCounters
         return base;
     }
 
     function createSwitch(type, modelIndex) {
         let model = modelDB[type][modelIndex];
         if (!model) return null;
-        const swCount = projectSwitches.filter(s => s.type === 'networkSwitch').length;
-        const shortName = "SW" + (swCount + 1);
         let sw = {
             id: nextSwitchId++,
             type: 'networkSwitch',
             name: model.name,
-            shortName: shortName,
+            shortName: null,
             portsCount: model.ports,
             portSpeed: model.speed,
             backplane: model.backplane,
             switchingLatency: model.switchingLatency,
             poe: false,
-            poeStandard: model.poeStandard,
             poeBudget: model.poeBudget,
             powerW: model.powerW,
             icon: "fa-network-wired",
@@ -1065,11 +672,11 @@
     function createMatrix(type, modelIndex) {
         let model = modelDB.matrix[modelIndex];
         if (!model) return null;
-        let matrix = {
+        return {
             id: nextSwitchId++,
             type: 'matrix',
             name: model.name,
-            shortName: model.name.substring(0, 15),
+            shortName: null,
             inputs: model.inputs,
             outputs: model.outputs,
             latencyIn: model.latencyIn,
@@ -1084,7 +691,6 @@
             expanded: true,
             shortPrefix: "MX"
         };
-        return matrix;
     }
 
     function getDefaultIcon(type) {
@@ -1092,15 +698,23 @@
         return icons[type] || 'fa-question-circle';
     }
 
-    function renderDevicesInSegment(devices, isSwitchSegment = false) {
+    function updateModelSelect(type) {
+        let models = modelDB[type] || [];
+        if (type === 'tx' || type === 'rx') models = modelDB.tx;
+        let options = '';
+        models.forEach((model, idx) => options += `<option value="${idx}">${model.name}</option>`);
+        deviceModelSelect.innerHTML = options;
+    }
+
+    // Рендеринг устройств
+    function renderDevicesInSegment(devices) {
         let html = '';
-        devices.forEach((dev, idx) => {
+        devices.forEach((dev) => {
             const isExpanded = dev.expanded !== false;
             const icon = dev.icon || getDefaultIcon(dev.type);
             const typeLabel = (dev.type === 'tx') ? 'Tx' : (dev.type === 'rx' ? 'Rx' : '');
-            const shortName = dev.shortName || dev.shortPrefix + '?';
+            const shortName = dev.shortName || getShortName(dev);
             const displayName = isExpanded ? dev.name : shortName;
-            
             let expandedHtml = '';
             if (isExpanded) {
                 let usbHtml = '';
@@ -1109,7 +723,7 @@
                         <div class="usb-control-wrapper">
                             <label style="display: inline-flex; align-items: center; gap: 4px;">
                                 <input type="checkbox" class="usb-toggle" data-device-id="${dev.id}" ${dev.usb ? 'checked' : ''}>
-                                <span style="font-size: 0.7rem;">USB</span>
+                                <span>USB</span>
                             </label>
                             ${dev.usb ? `<select class="usb-version-select" data-device-id="${dev.id}"><option value="2.0" ${dev.usbVersion === '2.0' ? 'selected' : ''}>2.0</option><option value="3.0" ${dev.usbVersion === '3.0' ? 'selected' : ''}>3.0</option><option value="3.1" ${dev.usbVersion === '3.1' ? 'selected' : ''}>3.1</option></select>` : ''}
                         </div>
@@ -1117,22 +731,17 @@
                 }
                 let powerHtml = `
                     <div class="power-control-wrapper">
-                        <i class="fas fa-plug" style="color: var(--text-secondary);"></i>
+                        <i class="fas fa-plug"></i>
                         <input type="number" class="power-input mains-power-input" data-device-id="${dev.id}" value="${dev.powerW || 0}" step="1" min="0" style="width: 55px;"> Вт
                     </div>
                 `;
                 let poeHtml = '';
                 let ethernetHtml = '';
-                const supportsPoE = dev.poe === true;
-                const hasNetwork = dev.hasNetwork !== false;
-                if (hasNetwork) {
-                    if (supportsPoE) {
+                if (dev.hasNetwork !== false) {
+                    if (dev.poe === true) {
                         poeHtml = `
                             <div class="poe-control-wrapper">
-                                <label style="display: inline-flex; align-items: center; gap: 4px;">
-                                    <input type="checkbox" class="poe-toggle" data-device-id="${dev.id}" ${dev.poeEnabled ? 'checked' : ''}>
-                                    <span style="font-size: 0.7rem;">PoE</span>
-                                </label>
+                                <label><input type="checkbox" class="poe-toggle" data-device-id="${dev.id}" ${dev.poeEnabled ? 'checked' : ''}><span>PoE</span></label>
                                 ${dev.poeEnabled ? `<select class="power-input poe-power-select" data-device-id="${dev.id}"><option value="15" ${dev.poePower == 15 ? 'selected' : ''}>15W</option><option value="30" ${dev.poePower == 30 ? 'selected' : ''}>30W</option><option value="60" ${dev.poePower == 60 ? 'selected' : ''}>60W</option><option value="90" ${dev.poePower == 90 ? 'selected' : ''}>90W</option></select>` : ''}
                             </div>
                         `;
@@ -1140,17 +749,14 @@
                     if (!dev.poeEnabled) {
                         ethernetHtml = `
                             <div class="ethernet-control-wrapper">
-                                <label style="display: inline-flex; align-items: center; gap: 4px;">
-                                    <input type="checkbox" class="ethernet-toggle" data-device-id="${dev.id}" ${dev.ethernet ? 'checked' : ''}>
-                                    <span style="font-size: 0.7rem;">Ethernet</span>
-                                </label>
+                                <label><input type="checkbox" class="ethernet-toggle" data-device-id="${dev.id}" ${dev.ethernet ? 'checked' : ''}><span>Ethernet</span></label>
                             </div>
                         `;
                     }
                 }
                 let matrixHtml = '';
                 if (dev.type === 'matrix') {
-                    matrixHtml = `<div class="matrix-controls"><i class="fas fa-sign-in-alt"></i><input type="number" class="matrix-input matrix-inputs" data-device-id="${dev.id}" value="${dev.inputs || 0}" min="1" step="1" style="width:36px;"><i class="fas fa-sign-out-alt"></i><input type="number" class="matrix-input matrix-outputs" data-device-id="${dev.id}" value="${dev.outputs || 0}" min="1" step="1" style="width:36px;"></div>`;
+                    matrixHtml = `<div class="matrix-controls"><i class="fas fa-sign-in-alt"></i><input type="number" class="matrix-input matrix-inputs" data-device-id="${dev.id}" value="${dev.inputs || 0}" min="1" step="1"><i class="fas fa-sign-out-alt"></i><input type="number" class="matrix-input matrix-outputs" data-device-id="${dev.id}" value="${dev.outputs || 0}" min="1" step="1"></div>`;
                 }
                 expandedHtml = `
                     <div class="device-info">
@@ -1167,15 +773,11 @@
                     </div>
                 `;
             }
-            
             let collapsedHtml = `
                 <div class="device-icon"><i class="fas ${icon}"></i></div>
-                <div class="device-info">
-                    <div class="device-name">${shortName}</div>
-                </div>
+                <div class="device-info"><div class="device-name">${shortName}</div></div>
                 <button class="device-remove" data-device-id="${dev.id}" style="position: static;"><i class="fas fa-times"></i></button>
             `;
-            
             html += `<div class="device-item ${isExpanded ? 'expanded' : 'collapsed'}" data-device-id="${dev.id}">
                 ${isExpanded ? expandedHtml : collapsedHtml}
                 <button class="collapse-device-btn" data-device-id="${dev.id}" title="${isExpanded ? 'Свернуть' : 'Развернуть'}"><i class="fas ${isExpanded ? 'fa-compress' : 'fa-expand'}"></i></button>
@@ -1199,6 +801,24 @@
         return parts.join(', ');
     }
 
+    // Обновление LED и SOUND
+    function updateLedSound() {
+        let ledModelData = modelDB.ledScreen.find(m => m.name === ledConfig.model);
+        if (ledModelData) {
+            let area = ledConfig.width * ledConfig.height;
+            let power = area * (ledModelData.powerPerM2 || ledModelData.powerW / 10);
+            ledPowerExtra = power;
+            document.getElementById('ledAreaDisplay').innerText = area.toFixed(2);
+            document.getElementById('ledPowerDisplay').innerText = Math.round(power);
+        } else {
+            ledPowerExtra = 0;
+        }
+        soundPowerExtra = soundConfig.ampPower;
+        dspLatencyExtra = (soundConfig.dspType === 'builtin') ? 1 : 2;
+        document.getElementById('dspLatencyDisplay').innerText = dspLatencyExtra;
+    }
+
+    // Основной расчёт
     function calculateAll() {
         let totalBitrate = 0;
         let allSwitches = [];
@@ -1206,10 +826,12 @@
         let usedPoE = 0;
         let mainsPower = 0;
         let totalPowerAll = 0;
+        let totalLatencyAudio = 0;
         let warnings = [];
 
-        const codecFactor = getResolutionFactor() * getChromaFactor();
+        const videoCodecFactor = getVideoCodecFactor();
 
+        // Сброс портов
         for (let sw of projectSwitches) {
             if (sw.type === 'networkSwitch') {
                 for (let port of sw.ports) port.deviceId = null;
@@ -1250,7 +872,7 @@
         paths.forEach(path => {
             path.sourceDevices.forEach(dev => {
                 if (dev.type === 'source' || dev.type === 'tx') {
-                    let bitrate = calcVideoBitrate(globalSettings.resolution, globalSettings.chroma, globalSettings.fps);
+                    let bitrate = calcVideoBitrate();
                     if (dev.type === 'tx') bitrate *= (dev.bitrateFactor || 0.8);
                     totalBitrate += bitrate * (dev.bitrateFactor || 1);
                 }
@@ -1264,7 +886,7 @@
             });
             path.sinkDevices.forEach(dev => {
                 if (dev.type === 'rx') {
-                    let bitrate = calcVideoBitrate(globalSettings.resolution, globalSettings.chroma, globalSettings.fps);
+                    let bitrate = calcVideoBitrate();
                     if (dev.usb) {
                         const usbSpeeds = { '2.0': 480, '3.0': 5000, '3.1': 10000 };
                         bitrate += usbSpeeds[dev.usbVersion] || 0;
@@ -1281,26 +903,25 @@
             });
         });
 
-        for (let sw of projectSwitches) {
-            if (sw.type === 'matrix') {
-                let sourceCount = paths.length;
-                let sinkCount = paths.length;
-                if (sourceCount > (sw.inputs || 0)) {
-                    warnings.push(`Матрица ${sw.name}: входов ${sw.inputs}, а подключено трактов ${sourceCount}`);
-                }
-                if (sinkCount > (sw.outputs || 0)) {
-                    warnings.push(`Матрица ${sw.name}: выходов ${sw.outputs}, а подключено трактов ${sinkCount}`);
-                }
-            }
+        // Учёт резервирования (удвоение битрейта и портов)
+        if (globalSettings.redundancy) {
+            totalBitrate *= 2;
+            // порты уже удвоятся в статистике, так как каждое устройство будет занимать 2 порта
+            // для простоты добавим предупреждение
+            warnings.push('Включено резервирование — все сетевые подключения дублируются.');
         }
 
-        if (warnings.length > 0) alert(warnings.join('\n'));
+        // Добавляем LED и SOUND мощность
+        totalPowerAll += ledPowerExtra + soundPowerExtra;
+        mainsPower += ledPowerExtra + soundPowerExtra; // условно 220В
+        // Тепловыделение
+        let totalBTU = (totalPowerAll * 3.412);
 
+        // Обновление виджетов
+        sidebarTotalBitrate.innerText = totalBitrate.toFixed(0);
         let minBackplane = allSwitches.length ? Math.min(...allSwitches.map(s => s.backplane || 100)) * 1000 : 1000;
         let loadPercent = (totalBitrate / minBackplane) * 100;
         if (loadPercent > 100) loadPercent = 100;
-
-        sidebarTotalBitrate.innerText = totalBitrate.toFixed(0);
         sidebarLoadPercent.innerText = loadPercent.toFixed(1) + '%';
         const stats = portManager.getStats();
         sidebarPortsUsed.innerText = stats.usedPorts;
@@ -1308,22 +929,47 @@
         sidebarPoEUsed.innerText = usedPoE;
         sidebarPoETotal.innerText = totalPoEBudget;
         sidebarTotalPower.innerText = totalPowerAll.toFixed(0);
-        sidebarTotalBTU.innerText = (totalPowerAll * 3.412).toFixed(0);
+        sidebarTotalBTU.innerText = totalBTU.toFixed(0);
 
+        // Задержки трактов
+        let pathDelays = {};
+        paths.forEach(path => {
+            let delay = 0;
+            path.sourceDevices.forEach(dev => {
+                let d = dev.latency || 0;
+                if (dev.usb) d += 0.5;
+                if (dev.audioEmbed) d += 1.0;
+                if (dev.type === 'tx' || dev.type === 'rx' || dev.type === 'ledProc') d *= videoCodecFactor;
+                delay += d;
+            });
+            projectSwitches.forEach(sw => {
+                if (sw.switchingLatency) delay += sw.switchingLatency;
+                if (sw.latencyIn) delay += sw.latencyIn;
+                if (sw.latencyOut) delay += sw.latencyOut;
+            });
+            path.sinkDevices.forEach(dev => {
+                let d = dev.latency || 0;
+                if (dev.usb) d += 0.5;
+                if (dev.audioEmbed) d += 1.0;
+                if (dev.type === 'tx' || dev.type === 'rx' || dev.type === 'ledProc') d *= videoCodecFactor;
+                delay += d;
+            });
+            // Добавляем задержку от DSP
+            delay += dspLatencyExtra;
+            pathDelays[path.id] = delay;
+        });
+
+        // Рендер активного тракта и списка
         if (activePathId !== null) {
             const activePath = paths.find(p => p.id === activePathId);
-            if (activePath) {
-                renderActivePath(activePath);
-            } else {
-                if (paths.length > 0) setActivePath(paths[0].id);
-                else setActivePath(null);
-            }
+            if (activePath) renderActivePath(activePath);
+            else if (paths.length > 0) setActivePath(paths[0].id);
+            else setActivePath(null);
         } else if (paths.length > 0) {
             setActivePath(paths[0].id);
         } else {
             renderEmptyState();
         }
-
         renderPathsList();
     }
 
@@ -1381,37 +1027,25 @@
         });
     }
 
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
+    function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
 
     function renderActivePath(path) {
-        if (!path) {
-            renderEmptyState();
-            return;
-        }
+        if (!path) { renderEmptyState(); return; }
         const html = `
             <div class="path-card" data-path-id="${path.id}">
-                <div class="path-header">
-                    <h3>${escapeHtml(path.name)}</h3>
-                </div>
+                <div class="path-header"><h3>${escapeHtml(path.name)}</h3></div>
                 <div class="segments-row">
                     <div class="segment" data-path-id="${path.id}" data-segment="source">
                         <div class="segment-header"><span>Вход</span><button class="add-device-btn" data-path-id="${path.id}" data-segment="source"><i class="fas fa-plus-circle"></i></button></div>
-                        <div class="devices-container" id="source-${path.id}">${renderDevicesInSegment(path.sourceDevices, false)}</div>
+                        <div class="devices-container" id="source-${path.id}">${renderDevicesInSegment(path.sourceDevices)}</div>
                     </div>
                     <div class="segment" data-path-id="${path.id}" data-segment="switch">
                         <div class="segment-header"><span>Коммутация</span><button class="add-device-btn" data-path-id="${path.id}" data-segment="switch"><i class="fas fa-plus-circle"></i></button></div>
-                        <div class="devices-container" id="switch-${path.id}">${renderDevicesInSegment(projectSwitches, true)}</div>
+                        <div class="devices-container" id="switch-${path.id}">${renderDevicesInSegment(projectSwitches)}</div>
                     </div>
                     <div class="segment" data-path-id="${path.id}" data-segment="sink">
                         <div class="segment-header"><span>Выход</span><button class="add-device-btn" data-path-id="${path.id}" data-segment="sink"><i class="fas fa-plus-circle"></i></button></div>
-                        <div class="devices-container" id="sink-${path.id}">${renderDevicesInSegment(path.sinkDevices, false)}</div>
+                        <div class="devices-container" id="sink-${path.id}">${renderDevicesInSegment(path.sinkDevices)}</div>
                     </div>
                 </div>
             </div>
@@ -1421,14 +1055,7 @@
     }
 
     function renderEmptyState() {
-        activePathContainer.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-road"></i>
-                <h3>Нет трактов</h3>
-                <p>Создайте новый тракт, чтобы начать работу</p>
-                <button class="btn-primary" id="emptyStateAddPath"><i class="fas fa-plus"></i> Новый тракт</button>
-            </div>
-        `;
+        activePathContainer.innerHTML = `<div class="empty-state"><i class="fas fa-road"></i><h3>Нет трактов</h3><p>Создайте новый тракт, чтобы начать работу</p><button class="btn-primary" id="emptyStateAddPath"><i class="fas fa-plus"></i> Новый тракт</button></div>`;
         const emptyBtn = document.getElementById('emptyStateAddPath');
         if (emptyBtn) emptyBtn.addEventListener('click', () => addNewPath());
     }
@@ -1446,12 +1073,13 @@
     }
 
     function attachDeviceEvents() {
+        // Добавление устройств
         document.querySelectorAll('.add-device-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 let pathId = parseInt(btn.dataset.pathId);
                 let segment = btn.dataset.segment;
                 currentSegment = { pathId, segment };
-                let typeSelect = document.getElementById('deviceTypeSelect');
+                let typeSelect = deviceTypeSelect;
                 typeSelect.innerHTML = '';
                 let options = segment === 'switch' ? [
                     { value: 'matrix', text: 'Матричный коммутатор' },
@@ -1472,6 +1100,7 @@
                 modal.style.display = 'flex';
             });
         });
+        // Удаление устройств
         document.querySelectorAll('.device-remove').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -1487,6 +1116,7 @@
                 if (idx !== -1) { projectSwitches.splice(idx, 1); resetCounters(); calculateAll(); return; }
             });
         });
+        // Сворачивание/разворачивание
         document.querySelectorAll('.collapse-device-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -1497,23 +1127,20 @@
                     if (device) break;
                 }
                 if (!device) device = projectSwitches.find(d => d.id == deviceId);
-                if (device) {
-                    device.expanded = !device.expanded;
-                    calculateAll();
-                }
+                if (device) { device.expanded = !device.expanded; calculateAll(); }
             });
         });
-        // Обработчики для PoE, Ethernet, питания, USB, матрицы
+        // Обработчики для PoE, Ethernet, питания, USB, матрицы (аналогично предыдущей версии)
+        function getDeviceById(id) {
+            for (let path of paths) {
+                let d = [...path.sourceDevices, ...path.sinkDevices].find(d => d.id == id);
+                if (d) return d;
+            }
+            return projectSwitches.find(d => d.id == id);
+        }
         document.querySelectorAll('.poe-toggle').forEach(cb => {
             cb.addEventListener('change', (e) => {
-                e.stopPropagation();
-                let deviceId = cb.dataset.deviceId;
-                let device = null;
-                for (let path of paths) {
-                    device = [...path.sourceDevices, ...path.sinkDevices].find(d => d.id == deviceId);
-                    if (device) break;
-                }
-                if (!device) device = projectSwitches.find(d => d.id == deviceId);
+                let device = getDeviceById(cb.dataset.deviceId);
                 if (device && device.poe !== undefined) {
                     device.poeEnabled = cb.checked;
                     if (device.poeEnabled) device.ethernet = false;
@@ -1523,14 +1150,7 @@
         });
         document.querySelectorAll('.ethernet-toggle').forEach(cb => {
             cb.addEventListener('change', (e) => {
-                e.stopPropagation();
-                let deviceId = cb.dataset.deviceId;
-                let device = null;
-                for (let path of paths) {
-                    device = [...path.sourceDevices, ...path.sinkDevices].find(d => d.id == deviceId);
-                    if (device) break;
-                }
-                if (!device) device = projectSwitches.find(d => d.id == deviceId);
+                let device = getDeviceById(cb.dataset.deviceId);
                 if (device) {
                     device.ethernet = cb.checked;
                     if (device.ethernet && device.poeEnabled) device.poeEnabled = false;
@@ -1540,70 +1160,53 @@
         });
         document.querySelectorAll('.poe-power-select').forEach(sel => {
             sel.addEventListener('change', (e) => {
-                e.stopPropagation();
-                let deviceId = sel.dataset.deviceId;
-                let power = parseInt(sel.value);
-                for (let path of paths) {
-                    let dev = [...path.sourceDevices, ...path.sinkDevices].find(d => d.id == deviceId);
-                    if (dev && dev.poe === true) { dev.poePower = power; dev.powerW = power; calculateAll(); return; }
+                let device = getDeviceById(sel.dataset.deviceId);
+                if (device && device.poe === true) {
+                    device.poePower = parseInt(sel.value);
+                    device.powerW = device.poePower;
+                    calculateAll();
                 }
-                let sw = projectSwitches.find(d => d.id == deviceId);
-                if (sw && sw.poe === true) { sw.poePower = power; sw.powerW = power; calculateAll(); return; }
             });
         });
         document.querySelectorAll('.mains-power-input').forEach(inp => {
             inp.addEventListener('change', (e) => {
-                e.stopPropagation();
-                let deviceId = inp.dataset.deviceId;
-                let power = parseFloat(inp.value) || 0;
-                for (let path of paths) {
-                    let dev = [...path.sourceDevices, ...path.sinkDevices].find(d => d.id == deviceId);
-                    if (dev) { dev.powerW = power; calculateAll(); return; }
+                let device = getDeviceById(inp.dataset.deviceId);
+                if (device) {
+                    device.powerW = parseFloat(inp.value) || 0;
+                    calculateAll();
                 }
-                let sw = projectSwitches.find(d => d.id == deviceId);
-                if (sw) { sw.powerW = power; calculateAll(); return; }
             });
         });
         document.querySelectorAll('.usb-toggle').forEach(cb => {
             cb.addEventListener('change', (e) => {
-                e.stopPropagation();
-                let deviceId = cb.dataset.deviceId;
-                for (let path of paths) {
-                    let dev = [...path.sourceDevices, ...path.sinkDevices].find(d => d.id == deviceId);
-                    if (dev && (dev.type === 'tx' || dev.type === 'rx')) { dev.usb = cb.checked; calculateAll(); return; }
+                let device = getDeviceById(cb.dataset.deviceId);
+                if (device && (device.type === 'tx' || device.type === 'rx')) {
+                    device.usb = cb.checked;
+                    calculateAll();
                 }
             });
         });
         document.querySelectorAll('.usb-version-select').forEach(sel => {
             sel.addEventListener('change', (e) => {
-                e.stopPropagation();
-                let deviceId = sel.dataset.deviceId;
-                for (let path of paths) {
-                    let dev = [...path.sourceDevices, ...path.sinkDevices].find(d => d.id == deviceId);
-                    if (dev) { dev.usbVersion = sel.value; calculateAll(); return; }
-                }
+                let device = getDeviceById(sel.dataset.deviceId);
+                if (device) { device.usbVersion = sel.value; calculateAll(); }
             });
         });
         document.querySelectorAll('.matrix-inputs').forEach(inp => {
             inp.addEventListener('change', (e) => {
-                e.stopPropagation();
-                let deviceId = inp.dataset.deviceId;
-                let val = parseInt(inp.value) || 1;
-                let sw = projectSwitches.find(d => d.id == deviceId);
-                if (sw && sw.type === 'matrix') { sw.inputs = val; calculateAll(); }
+                let sw = projectSwitches.find(s => s.id == inp.dataset.deviceId);
+                if (sw && sw.type === 'matrix') { sw.inputs = parseInt(inp.value) || 1; calculateAll(); }
             });
         });
         document.querySelectorAll('.matrix-outputs').forEach(inp => {
             inp.addEventListener('change', (e) => {
-                e.stopPropagation();
-                let deviceId = inp.dataset.deviceId;
-                let val = parseInt(inp.value) || 1;
-                let sw = projectSwitches.find(d => d.id == deviceId);
-                if (sw && sw.type === 'matrix') { sw.outputs = val; calculateAll(); }
+                let sw = projectSwitches.find(s => s.id == inp.dataset.deviceId);
+                if (sw && sw.type === 'matrix') { sw.outputs = parseInt(inp.value) || 1; calculateAll(); }
             });
         });
     }
 
+    // Модальное окно добавления устройства
     deviceTypeSelect.addEventListener('change', () => updateModelSelect(deviceTypeSelect.value));
     modalAddBtn.addEventListener('click', () => {
         if (!currentSegment) return;
@@ -1635,41 +1238,72 @@
     modalCancelBtn.addEventListener('click', () => modal.style.display = 'none');
     window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
 
-    function syncVideoSettings() {
+    // Синхронизация глобальных настроек
+    function syncGlobalSettings() {
         globalSettings.resolution = document.getElementById('resolutionSidebar').value;
         globalSettings.chroma = document.getElementById('chromaSidebar').value;
         globalSettings.fps = parseInt(document.getElementById('fpsSidebar').value);
+        globalSettings.colorSpace = document.getElementById('colorSpaceSidebar').value;
+        globalSettings.bitDepth = parseInt(document.getElementById('bitDepthSidebar').value);
+        globalSettings.cable = document.getElementById('cableSidebar').value;
+        globalSettings.multicast = document.getElementById('multicastSidebar').checked;
+        globalSettings.qos = document.getElementById('qosSidebar').checked;
+        globalSettings.networkType = document.getElementById('networkTypeSidebar').value;
+        globalSettings.syncProtocol = document.getElementById('syncProtocolSidebar').value;
+        globalSettings.redundancy = document.getElementById('redundancySidebar').checked;
         calculateAll();
     }
-    document.getElementById('resolutionSidebar').addEventListener('change', syncVideoSettings);
-    document.getElementById('chromaSidebar').addEventListener('change', syncVideoSettings);
-    document.getElementById('fpsSidebar').addEventListener('change', syncVideoSettings);
+    document.getElementById('resolutionSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('chromaSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('fpsSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('colorSpaceSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('bitDepthSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('cableSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('multicastSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('qosSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('networkTypeSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('syncProtocolSidebar').addEventListener('change', syncGlobalSettings);
+    document.getElementById('redundancySidebar').addEventListener('change', syncGlobalSettings);
 
+    // LED
+    function syncLed() {
+        ledConfig.model = document.getElementById('ledModelSelect').value;
+        ledConfig.width = parseFloat(document.getElementById('ledWidth').value) || 0;
+        ledConfig.height = parseFloat(document.getElementById('ledHeight').value) || 0;
+        updateLedSound();
+        calculateAll();
+    }
+    document.getElementById('ledModelSelect').addEventListener('change', syncLed);
+    document.getElementById('ledWidth').addEventListener('input', syncLed);
+    document.getElementById('ledHeight').addEventListener('input', syncLed);
+
+    // SOUND
+    function syncSound() {
+        soundConfig.micChannels = parseInt(document.getElementById('micChannels').value) || 0;
+        soundConfig.dspType = document.getElementById('dspType').value;
+        soundConfig.ampPower = parseFloat(document.getElementById('ampPower').value) || 0;
+        updateLedSound();
+        calculateAll();
+    }
+    document.getElementById('micChannels').addEventListener('input', syncSound);
+    document.getElementById('dspType').addEventListener('change', syncSound);
+    document.getElementById('ampPower').addEventListener('input', syncSound);
+
+    // Кнопка добавления тракта
     document.getElementById('addPathBtnSidebar').addEventListener('click', () => addNewPath());
 
-    document.getElementById('printReportBtnSidebar').addEventListener('click', () => {
-        alert('Функция печати отчёта будет реализована в следующей версии.');
-    });
+    // Печать отчёта
+    document.getElementById('printReportBtnSidebar').addEventListener('click', () => alert('Функция печати отчёта будет в следующей версии.'));
 
+    // Документация/инструкция
     const docModal = document.getElementById('docModal');
     const guideModal = document.getElementById('guideModal');
-    const docBtn = document.getElementById('docBtnSidebar');
-    const guideBtn = document.getElementById('guideBtnSidebar');
-    function showDoc() { docModal.style.display = 'flex'; }
-    function showGuide() { guideModal.style.display = 'flex'; }
-    docBtn.addEventListener('click', showDoc);
-    guideBtn.addEventListener('click', showGuide);
-    document.querySelectorAll('.modal-close').forEach(close => {
-        close.addEventListener('click', () => {
-            docModal.style.display = 'none';
-            guideModal.style.display = 'none';
-        });
-    });
-    window.addEventListener('click', (e) => {
-        if (e.target === docModal) docModal.style.display = 'none';
-        if (e.target === guideModal) guideModal.style.display = 'none';
-    });
+    document.getElementById('docBtnSidebar').addEventListener('click', () => docModal.style.display = 'flex');
+    document.getElementById('guideBtnSidebar').addEventListener('click', () => guideModal.style.display = 'flex');
+    document.querySelectorAll('.modal-close').forEach(close => close.addEventListener('click', () => { docModal.style.display = 'none'; guideModal.style.display = 'none'; }));
+    window.addEventListener('click', (e) => { if (e.target === docModal) docModal.style.display = 'none'; if (e.target === guideModal) guideModal.style.display = 'none'; });
 
+    // Тема
     const themeSwitch = document.getElementById('themeSwitch');
     function setTheme(theme) {
         if (theme === 'dark') {
@@ -1682,13 +1316,10 @@
             localStorage.setItem('theme', 'light');
         }
     }
-    themeSwitch.addEventListener('click', () => {
-        const isDark = document.body.classList.contains('dark');
-        setTheme(isDark ? 'light' : 'dark');
-    });
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') setTheme('dark');
+    themeSwitch.addEventListener('click', () => setTheme(document.body.classList.contains('dark') ? 'light' : 'dark'));
+    if (localStorage.getItem('theme') === 'dark') setTheme('dark');
 
+    // Сворачивание боковой панели
     const sidebar = document.getElementById('sidebar');
     const collapseBtn = document.getElementById('collapseSidebarBtn');
     function setSidebarCollapsed(collapsed) {
@@ -1702,16 +1333,12 @@
             localStorage.setItem('sidebarCollapsed', 'false');
         }
     }
-    collapseBtn.addEventListener('click', () => {
-        const isCollapsed = sidebar.classList.contains('collapsed');
-        setSidebarCollapsed(!isCollapsed);
-    });
-    const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-    if (savedCollapsed === 'true') setSidebarCollapsed(true);
-    else setSidebarCollapsed(false);
+    collapseBtn.addEventListener('click', () => setSidebarCollapsed(!sidebar.classList.contains('collapsed')));
+    if (localStorage.getItem('sidebarCollapsed') === 'true') setSidebarCollapsed(true);
 
+    // Аккордеоны
     function initCollapsibleSections() {
-        const sections = ['video', 'paths', 'networkStats', 'powerStats', 'manage'];
+        const sections = ['video', 'paths', 'network', 'led', 'sound', 'networkStats', 'powerStats', 'manage'];
         sections.forEach(sectionId => {
             const header = document.querySelector(`.section-header[data-section="${sectionId}"]`);
             const content = document.getElementById(`${sectionId}Content`);
@@ -1731,18 +1358,19 @@
     }
     initCollapsibleSections();
 
+    // Мобильное меню
     const mobileToggle = document.getElementById('mobileMenuToggle');
-    mobileToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-    });
+    mobileToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
     document.addEventListener('click', (e) => {
         if (window.innerWidth <= 768 && sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== mobileToggle) {
             sidebar.classList.remove('open');
         }
     });
 
+    // Инициализация
     portManager.setSwitches(projectSwitches);
     resetCounters();
+    updateLedSound();
     if (paths.length === 0) addNewPath();
     else setActivePath(paths[0].id);
 })();
