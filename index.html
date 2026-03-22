@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Sputnik Studio v5.6.0 — AV System Designer</title>
+    <title>Sputnik Studio v5.6.2 — AV System Designer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -667,7 +667,7 @@
             </div>
         </div>
 
-        <div class="sidebar-footer">Sputnik Studio v5.6.0<br>© 2026</div>
+        <div class="sidebar-footer">Sputnik Studio v5.6.2<br>© 2026</div>
     </div>
 
     <div class="main-content">
@@ -689,22 +689,32 @@
         </div>
     </div>
 </div>
+
+<!-- Новые модальные окна с кратким текстом и ссылками на PDF -->
 <div id="docModal" class="modal">
     <div class="modal-content">
         <span class="modal-close" id="closeDocModal">&times;</span>
-        <h2>Документация Sputnik Studio v5.6.0</h2>
-        <p><strong>Sputnik Studio</strong> — профессиональный инструмент для расчёта задержек видеосигнала, сетевой нагрузки и энергопотребления в системах AV over IP, матричной коммутации, LED-экранах и видеостенах. Добавлен модуль эргономики ЭКП, сохранение и загрузка проектов.</p>
-        <div class="modal-buttons"><button class="btn-primary" id="downloadDocPdf">Скачать PDF</button></div>
+        <h2>Документация Sputnik Studio v5.6.2</h2>
+        <p>Полная версия документации доступна в виде PDF‑файла.</p>
+        <p><a href="https://raw.githubusercontent.com/rawcam/sputnik-studio/main/sputnik_studio_documentation.pdf" target="_blank" style="color: var(--accent);">📄 Скачать документацию (PDF)</a></p>
+        <div class="modal-buttons">
+            <button class="btn-primary" id="downloadDocPdf">Скачать PDF</button>
+        </div>
     </div>
 </div>
+
 <div id="guideModal" class="modal">
     <div class="modal-content">
         <span class="modal-close" id="closeGuideModal">&times;</span>
         <h2>Инструкция пользователя</h2>
-        <p>Используйте боковую панель для создания трактов и настройки устройств. Настройки VIDEO, NETWORK, LED, SOUND влияют на расчёты. В разделе «Эргономика ЭКП» доступен калькулятор расстояния до экрана и высоты символов. Сохраняйте проекты в браузере, экспортируйте в JSON и импортируйте обратно.</p>
-        <div class="modal-buttons"><button class="btn-primary" id="downloadGuidePdf">Скачать PDF</button></div>
+        <p>Полная инструкция по работе с Sputnik Studio доступна в виде PDF‑файла.</p>
+        <p><a href="https://raw.githubusercontent.com/rawcam/sputnik-studio/main/sputnik_studio_manual.pdf" target="_blank" style="color: var(--accent);">📄 Скачать инструкцию (PDF)</a></p>
+        <div class="modal-buttons">
+            <button class="btn-primary" id="downloadGuidePdf">Скачать PDF</button>
+        </div>
     </div>
 </div>
+
 <div id="resetModal" class="modal">
     <div class="modal-content">
         <span class="modal-close" id="closeResetModal">&times;</span>
@@ -720,7 +730,7 @@
 
 <script>
 (function() {
-    // ======================== БАЗА МОДЕЛЕЙ (полная, как в v5.5.1) ========================
+    // ======================== БАЗА МОДЕЛЕЙ ========================
     const modelDB = {
         source: [
             { name: "Типовой ПК", latency: 5, poe: false, powerW: 200, icon: "fa-desktop", hasNetwork: true, shortPrefix: "PC" },
@@ -816,7 +826,7 @@
 
     let ledConfig = { modelIndex: 0, widthCabinets: 1, heightCabinets: 1, widthMeters: 0, heightMeters: 0, area: 0, resolution: { w:0, h:0 }, power: 0 };
     let soundConfig = { micChannels: 0, dspType: 'builtin', ampPower: 0, dspLatency: 0 };
-    let exportCounter = 1; // для нумерации файлов экспорта
+    let exportCounter = 1;
 
     const sidebarPathsList = document.getElementById('sidebarPathsList');
     const sidebarTotalBitrate = document.getElementById('sidebarTotalBitrate');
@@ -904,46 +914,42 @@
     const portManager = new SimplePortManager();
 
     let deviceCounters = { PC:0, SRV:0, CAM:0, MP:0, TX:0, RX:0, MX:0, SW:0, SPL:0, SEL:0, LED:0, SCR:0, MON:0, TV:0, PROJ:0, VW:0, DNT:0 };
-function getShortName(dev) {
-    // Принудительно исправляем префикс по типу устройства
-    let prefix = dev.shortPrefix;
-    if (!prefix) {
-        if (dev.type === 'source') prefix = 'SRC';
-        else if (dev.type === 'tx') prefix = 'TX';
-        else if (dev.type === 'rx') prefix = 'RX';
-        else prefix = 'DEV';
+    function getShortName(dev) {
+        let prefix = dev.shortPrefix;
+        if (!prefix) {
+            if (dev.type === 'source') prefix = 'SRC';
+            else if (dev.type === 'tx') prefix = 'TX';
+            else if (dev.type === 'rx') prefix = 'RX';
+            else prefix = 'DEV';
+        }
+        if (dev.type === 'rx' && prefix !== 'RX') prefix = 'RX';
+        if (dev.type === 'tx' && prefix !== 'TX') prefix = 'TX';
+        let maxNum = 0;
+        const allDevices = [];
+        paths.forEach(p => allDevices.push(...p.sourceDevices, ...p.sinkDevices));
+        allDevices.push(...projectSwitches);
+        for (let d of allDevices) {
+            let match = d.shortName ? d.shortName.match(new RegExp(`^${prefix}(\\d+)$`)) : null;
+            if (match) maxNum = Math.max(maxNum, parseInt(match[1]));
+        }
+        return prefix + (maxNum + 1);
     }
-    // Для rx и tx убеждаемся, что префикс правильный
-    if (dev.type === 'rx' && prefix !== 'RX') prefix = 'RX';
-    if (dev.type === 'tx' && prefix !== 'TX') prefix = 'TX';
-    
-    let maxNum = 0;
-    const allDevices = [];
-    paths.forEach(p => allDevices.push(...p.sourceDevices, ...p.sinkDevices));
-    allDevices.push(...projectSwitches);
-    for (let d of allDevices) {
-        let match = d.shortName ? d.shortName.match(new RegExp(`^${prefix}(\\d+)$`)) : null;
-        if (match) maxNum = Math.max(maxNum, parseInt(match[1]));
+    function updateAllShortNames() {
+        const allDevices = [];
+        paths.forEach(p => allDevices.push(...p.sourceDevices, ...p.sinkDevices));
+        allDevices.push(...projectSwitches);
+        for (let dev of allDevices) {
+            if (dev.type === 'rx') dev.shortPrefix = 'RX';
+            else if (dev.type === 'tx') dev.shortPrefix = 'TX';
+            dev.shortName = getShortName(dev);
+        }
+        for (let k in deviceCounters) deviceCounters[k] = 0;
+        for (let dev of allDevices) {
+            let match = dev.shortName.match(/^([A-Z]+)(\d+)$/);
+            if (match) deviceCounters[match[1]] = Math.max(deviceCounters[match[1]] || 0, parseInt(match[2]));
+        }
     }
-    return prefix + (maxNum + 1);
-}
-function updateAllShortNames() {
-    const allDevices = [];
-    paths.forEach(p => allDevices.push(...p.sourceDevices, ...p.sinkDevices));
-    allDevices.push(...projectSwitches);
-    for (let dev of allDevices) {
-        // Принудительно устанавливаем правильный shortPrefix для rx/tx
-        if (dev.type === 'rx') dev.shortPrefix = 'RX';
-        else if (dev.type === 'tx') dev.shortPrefix = 'TX';
-        // Для остальных типов оставляем как есть
-        dev.shortName = getShortName(dev);
-    }
-    for (let k in deviceCounters) deviceCounters[k] = 0;
-    for (let dev of allDevices) {
-        let match = dev.shortName.match(/^([A-Z]+)(\d+)$/);
-        if (match) deviceCounters[match[1]] = Math.max(deviceCounters[match[1]] || 0, parseInt(match[2]));
-    }
-}
+
     function updateModelSelect(type) {
         let models = modelDB[type] || [];
         if (type === 'tx' || type === 'rx') models = modelDB.tx;
@@ -1299,7 +1305,6 @@ function updateAllShortNames() {
         activePathContainer.style.display = '';
         allTractsContainer.style.display = 'none';
         ergoCalculatorContainer.style.display = 'none';
-        // Обновляем вид кнопки
         const ergoBtn = document.getElementById('showErgoCalcBtn');
         ergoBtn.classList.remove('btn-inactive');
         ergoBtn.classList.add('btn-primary');
@@ -1343,7 +1348,6 @@ function updateAllShortNames() {
         ergoBtn.classList.add('btn-inactive');
         ergoBtn.innerHTML = '<i class="fas fa-calculator"></i> Показать калькулятор';
         if (ergoCalculatorContainer.innerHTML === '') {
-            // Собираем список экранов из трактов
             let screensList = [{ id: 'custom', name: '— Ручной ввод —', width: 0, height: 0, resolutionW: 0, resolutionH: 0 }];
             paths.forEach(path => {
                 [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
@@ -1903,7 +1907,6 @@ function updateAllShortNames() {
     document.getElementById('addPathBtnSidebar').addEventListener('click',()=>addNewPath());
     document.getElementById('showAllTractsBtn').addEventListener('click',()=>showAllTracts());
 
-    // Кнопка калькулятора
     const ergoBtn = document.getElementById('showErgoCalcBtn');
     ergoBtn.addEventListener('click', () => {
         if (viewMode === 'ergo') {
@@ -1913,10 +1916,10 @@ function updateAllShortNames() {
         }
     });
 
-    // ========== НОВЫЕ ФУНКЦИИ СОХРАНЕНИЯ/ЗАГРУЗКИ ==========
+    // Сохранение/загрузка
     function saveToLocalStorage() {
         const projectData = {
-            version: '5.6.0',
+            version: '5.6.2',
             globalSettings,
             paths,
             projectSwitches,
@@ -1931,71 +1934,9 @@ function updateAllShortNames() {
         alert('Проект сохранён в браузере');
     }
 
-    function loadFromLocalStorage() {
-        const saved = localStorage.getItem('sputnik_studio_project');
-        if (saved) {
-            if (confirm('Обнаружен сохранённый проект. Загрузить его? Текущий проект будет заменён.')) {
-                try {
-                    const data = JSON.parse(saved);
-                    globalSettings = data.globalSettings;
-                    paths = data.paths;
-                    projectSwitches = data.projectSwitches;
-                    ledConfig = data.ledConfig;
-                    soundConfig = data.soundConfig;
-                    nextPathId = data.nextPathId;
-                    nextSwitchId = data.nextSwitchId;
-                    activePathId = data.activePathId;
-                    viewMode = data.viewMode || 'single';
-                    // Обновляем DOM элементы настроек
-                    document.getElementById('resolutionSidebar').value = globalSettings.resolution;
-                    document.getElementById('chromaSidebar').value = globalSettings.chroma;
-                    document.getElementById('fpsSidebar').value = globalSettings.fps;
-                    document.getElementById('colorSpace').value = globalSettings.colorSpace;
-                    document.getElementById('bitDepth').value = globalSettings.bitDepth;
-                    document.getElementById('globalCable').value = globalSettings.cable;
-                    document.getElementById('globalMulticast').checked = globalSettings.multicast;
-                    document.getElementById('globalQoS').checked = globalSettings.qos;
-                    document.getElementById('networkType').value = globalSettings.networkType;
-                    document.getElementById('syncProtocol').value = globalSettings.syncProtocol;
-                    document.getElementById('redundancy').checked = globalSettings.redundancy;
-                    // Обновляем LED
-                    const ledSelect = document.getElementById('ledModelSelect');
-                    if (ledSelect) ledSelect.value = ledConfig.modelIndex;
-                    document.getElementById('ledWidthCabinets').value = ledConfig.widthCabinets;
-                    document.getElementById('ledHeightCabinets').value = ledConfig.heightCabinets;
-                    document.getElementById('ledWidthMeters').value = ledConfig.widthMeters;
-                    document.getElementById('ledHeightMeters').value = ledConfig.heightMeters;
-                    // Обновляем SOUND
-                    document.getElementById('micChannels').value = soundConfig.micChannels;
-                    document.getElementById('dspType').value = soundConfig.dspType;
-                    document.getElementById('ampPower').value = soundConfig.ampPower;
-                    document.getElementById('dspLatency').value = soundConfig.dspLatency;
-                    // Пересчёт коротких имён
-                    updateAllShortNames();
-                    // Перерисовка
-                    portManager.setSwitches(projectSwitches);
-                    if (viewMode === 'single') {
-                        setActivePath(activePathId);
-                    } else if (viewMode === 'all') {
-                        showAllTracts();
-                    } else {
-                        setActivePath(activePathId);
-                    }
-                    calculateAll();
-                    alert('Проект загружен');
-                } catch(e) {
-                    console.error(e);
-                    alert('Ошибка загрузки проекта');
-                }
-            }
-        } else {
-            alert('Нет сохранённого проекта в браузере');
-        }
-    }
-
     function exportToJson() {
         const projectData = {
-            version: '5.6.0',
+            version: '5.6.2',
             exportDate: new Date().toISOString(),
             globalSettings,
             paths,
@@ -2043,7 +1984,6 @@ function updateAllShortNames() {
                         nextSwitchId = data.nextSwitchId;
                         activePathId = data.activePathId;
                         viewMode = data.viewMode || 'single';
-                        // Обновляем DOM
                         document.getElementById('resolutionSidebar').value = globalSettings.resolution;
                         document.getElementById('chromaSidebar').value = globalSettings.chroma;
                         document.getElementById('fpsSidebar').value = globalSettings.fps;
@@ -2086,16 +2026,14 @@ function updateAllShortNames() {
         input.click();
     }
 
-    // Подключаем кнопки
     document.getElementById('saveToBrowserBtn').addEventListener('click', saveToLocalStorage);
     document.getElementById('exportJsonBtn').addEventListener('click', exportToJson);
     document.getElementById('importJsonBtn').addEventListener('click', importFromJson);
 
-    // Печать отчёта (оставляем существующую)
     document.getElementById('printReportBtnSidebar').addEventListener('click',()=>{
         let win = window.open('', '_blank');
         win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Технический отчёт Sputnik Studio</title><style>body{font-family:"Segoe UI",Arial,sans-serif;margin:20px;color:#1e2b3c}h1{color:#2563eb;border-bottom:2px solid #2563eb;padding-bottom:8px}h2{color:#1e2b3c;margin-top:24px;border-left:4px solid #2563eb;padding-left:12px}h3{color:#4a5a6e;margin-top:16px}table{border-collapse:collapse;width:100%;margin:16px 0}th,td{border:1px solid #d9e1ec;padding:8px 12px;text-align:left;vertical-align:top}th{background-color:#e2edff;font-weight:600}.summary-box{background:#f9fcff;border:1px solid #d9e1ec;border-radius:8px;padding:16px;margin:16px 0}.summary-grid{display:flex;flex-wrap:wrap;gap:20px}.summary-item{flex:1;min-width:200px}.footer{margin-top:40px;font-size:12px;color:#6c757d;text-align:center;border-top:1px solid #dee2e6;padding-top:16px}</style></head><body>');
-        win.document.write('<h1>Sputnik Studio v5.6.0 — Технический отчёт</h1>');
+        win.document.write('<h1>Sputnik Studio v5.6.2 — Технический отчёт</h1>');
         win.document.write('<p><strong>Дата формирования:</strong> ' + new Date().toLocaleString() + '</p>');
         win.document.write('<h2>1. Глобальные параметры проекта</h2><div class="summary-box"><div class="summary-grid">');
         win.document.write(`<div class="summary-item"><strong>Разрешение:</strong> ${globalSettings.resolution}</div>`);
@@ -2139,7 +2077,7 @@ function updateAllShortNames() {
             });
             const frames = delay / (1000 / getFps());
             win.document.write(`<h3>${path.name} (задержка: ${delay.toFixed(2)} мс / ${frames.toFixed(2)} кадр.)</h3>`);
-            win.document.write('<td><thead>汽<th>Сегмент</th><th>Устройство</th><th>Тип</th><th>Задержка (мс)</th><th>Питание</th><th>Подключение</th><th>Примечания</th> </thead><tbody>');
+            win.document.write(' table border="1" cellpadding="5" width="100%"><thead> <table><th>Сегмент</th><th>Устройство</th><th>Тип</th><th>Задержка (мс)</th><th>Питание</th><th>Подключение</th><th>Примечания</th> </thead><tbody>');
             [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
                 let segName = dev.segment === 'source' ? 'Вход' : 'Выход';
                 let devLatency = dev.latency || 0;
@@ -2166,9 +2104,9 @@ function updateAllShortNames() {
                 if (sw.type === 'networkSwitch') remarks.push(`Портов: ${sw.ports.length}, ${sw.portSpeed} Мбит/с`);
                 win.document.write(`<tr><td>Коммутация</td><td>${sw.name}</td><td>${sw.type === 'matrix' ? 'Матрица' : 'Сетевой коммутатор'}</td><td>${swLatency.toFixed(2)}</td><td>220В ${sw.powerW} Вт</td><td>—</td><td>${remarks.join(', ')}</td></tr>`);
             });
-            win.document.write('</tbody></table>');
+            win.document.write('</tbody> </table>');
         });
-        win.document.write('<div class="footer">Отчёт сгенерирован в Sputnik Studio v5.6.0.</div>');
+        win.document.write('<div class="footer">Отчёт сгенерирован в Sputnik Studio v5.6.2.</div>');
         win.document.write('</body></html>');
         win.document.close();
         win.print();
@@ -2187,8 +2125,13 @@ function updateAllShortNames() {
         if(e.target===document.getElementById('resetModal')) document.getElementById('resetModal').style.display='none';
     });
 
-    document.getElementById('downloadDocPdf')?.addEventListener('click',()=>window.print());
-    document.getElementById('downloadGuidePdf')?.addEventListener('click',()=>window.print());
+    // Обработчики для кнопок скачивания PDF (открывают ссылки)
+    document.getElementById('downloadDocPdf')?.addEventListener('click',()=>{
+        window.open('https://raw.githubusercontent.com/rawcam/sputnik-studio/main/sputnik_studio_documentation.pdf', '_blank');
+    });
+    document.getElementById('downloadGuidePdf')?.addEventListener('click',()=>{
+        window.open('https://raw.githubusercontent.com/rawcam/sputnik-studio/main/sputnik_studio_manual.pdf', '_blank');
+    });
 
     function resetProject(){
         if (confirm('Сбросить все данные? Текущий проект будет удалён.')) {
@@ -2306,7 +2249,6 @@ function updateAllShortNames() {
     portManager.setSwitches(projectSwitches);
     initLED();
     initSound();
-    // Загружаем сохранённый проект из localStorage при старте
     const savedProject = localStorage.getItem('sputnik_studio_project');
     if (savedProject) {
         if (confirm('Обнаружен сохранённый проект. Загрузить его?')) {
@@ -2355,7 +2297,6 @@ function updateAllShortNames() {
                 alert('Проект загружен из браузера');
             } catch(e) {
                 console.error(e);
-                // Если ошибка, просто создаём новый проект
                 if(paths.length===0) addNewPath();
                 else setActivePath(paths[0].id);
             }
