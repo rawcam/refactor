@@ -904,32 +904,46 @@
     const portManager = new SimplePortManager();
 
     let deviceCounters = { PC:0, SRV:0, CAM:0, MP:0, TX:0, RX:0, MX:0, SW:0, SPL:0, SEL:0, LED:0, SCR:0, MON:0, TV:0, PROJ:0, VW:0, DNT:0 };
-    function getShortName(dev) {
-        let prefix = dev.shortPrefix || (dev.type === 'source' ? 'SRC' : (dev.type === 'tx' ? 'TX' : (dev.type === 'rx' ? 'RX' : 'DEV')));
-        let maxNum = 0;
-        const allDevices = [];
-        paths.forEach(p => allDevices.push(...p.sourceDevices, ...p.sinkDevices));
-        allDevices.push(...projectSwitches);
-        for (let d of allDevices) {
-            let match = d.shortName ? d.shortName.match(new RegExp(`^${prefix}(\\d+)$`)) : null;
-            if (match) maxNum = Math.max(maxNum, parseInt(match[1]));
-        }
-        return prefix + (maxNum + 1);
+function getShortName(dev) {
+    // Принудительно исправляем префикс по типу устройства
+    let prefix = dev.shortPrefix;
+    if (!prefix) {
+        if (dev.type === 'source') prefix = 'SRC';
+        else if (dev.type === 'tx') prefix = 'TX';
+        else if (dev.type === 'rx') prefix = 'RX';
+        else prefix = 'DEV';
     }
-    function updateAllShortNames() {
-        const allDevices = [];
-        paths.forEach(p => allDevices.push(...p.sourceDevices, ...p.sinkDevices));
-        allDevices.push(...projectSwitches);
-        for (let dev of allDevices) {
-            dev.shortName = getShortName(dev);
-        }
-        for (let k in deviceCounters) deviceCounters[k] = 0;
-        for (let dev of allDevices) {
-            let match = dev.shortName.match(/^([A-Z]+)(\d+)$/);
-            if (match) deviceCounters[match[1]] = Math.max(deviceCounters[match[1]] || 0, parseInt(match[2]));
-        }
+    // Для rx и tx убеждаемся, что префикс правильный
+    if (dev.type === 'rx' && prefix !== 'RX') prefix = 'RX';
+    if (dev.type === 'tx' && prefix !== 'TX') prefix = 'TX';
+    
+    let maxNum = 0;
+    const allDevices = [];
+    paths.forEach(p => allDevices.push(...p.sourceDevices, ...p.sinkDevices));
+    allDevices.push(...projectSwitches);
+    for (let d of allDevices) {
+        let match = d.shortName ? d.shortName.match(new RegExp(`^${prefix}(\\d+)$`)) : null;
+        if (match) maxNum = Math.max(maxNum, parseInt(match[1]));
     }
-
+    return prefix + (maxNum + 1);
+}
+function updateAllShortNames() {
+    const allDevices = [];
+    paths.forEach(p => allDevices.push(...p.sourceDevices, ...p.sinkDevices));
+    allDevices.push(...projectSwitches);
+    for (let dev of allDevices) {
+        // Принудительно устанавливаем правильный shortPrefix для rx/tx
+        if (dev.type === 'rx') dev.shortPrefix = 'RX';
+        else if (dev.type === 'tx') dev.shortPrefix = 'TX';
+        // Для остальных типов оставляем как есть
+        dev.shortName = getShortName(dev);
+    }
+    for (let k in deviceCounters) deviceCounters[k] = 0;
+    for (let dev of allDevices) {
+        let match = dev.shortName.match(/^([A-Z]+)(\d+)$/);
+        if (match) deviceCounters[match[1]] = Math.max(deviceCounters[match[1]] || 0, parseInt(match[2]));
+    }
+}
     function updateModelSelect(type) {
         let models = modelDB[type] || [];
         if (type === 'tx' || type === 'rx') models = modelDB.tx;
