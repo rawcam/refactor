@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Sputnik Studio v6.0.1 — AV System Designer</title>
+    <title>Sputnik Studio v6.0.3 — AV System Designer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ========== СТИЛИ (полностью из v5.7.0 + новые для вкладок) ========== */
+        /* ========== СТИЛИ ========== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         :root {
             --bg-page: #f4f7fb; --bg-panel: #ffffff; --text-primary: #1e2b3c; --text-secondary: #4a5a6e;
@@ -670,7 +670,7 @@
 <div class="app-layout">
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>SPUTNIK STUDIO v6.0.1</h2>
+            <h2>SPUTNIK STUDIO</h2>
             <div class="header-actions">
                 <div class="theme-switch" id="themeSwitch"><i class="fas fa-sun"></i></div>
                 <div class="collapse-btn" id="collapseSidebarBtn"><i class="fas fa-chevron-left"></i></div>
@@ -730,7 +730,7 @@
             </div>
         </div>
 
-        <!-- SOUND аккордеон (расширен) -->
+        <!-- SOUND аккордеон -->
         <div class="sidebar-section" id="soundSection">
             <div class="section-header" data-section="sound">
                 <i class="fas fa-headphones"></i>
@@ -748,7 +748,7 @@
             </div>
         </div>
 
-        <!-- VC аккордеон (новый) -->
+        <!-- VC аккордеон -->
         <div class="sidebar-section" id="vcSection">
             <div class="section-header" data-section="vc">
                 <i class="fas fa-chalkboard"></i>
@@ -799,9 +799,13 @@
                 <i class="fas fa-angle-down"></i>
             </div>
             <div class="section-content" id="networkStatsContent">
-                <div class="widget"><div class="widget-item"><span class="widget-label"><i class="fas fa-chart-line"></i><span> Битрейт:</span></span><span class="widget-value" id="sidebarTotalBitrate">0</span> Мбит/с</div>
-                <div class="widget-item"><span class="widget-label"><i class="fas fa-tachometer-alt"></i><span> Загрузка:</span></span><span class="widget-value" id="sidebarLoadPercent">0%</span></div>
-                <div class="widget-item"><span class="widget-label"><i class="fas fa-plug"></i><span> Порты:</span></span><span class="widget-value" id="sidebarPortsUsed">0</span>/<span id="sidebarPortsTotal">0</span></div></div>
+                <div class="widget">
+                    <div class="widget-item"><span class="widget-label"><i class="fas fa-chart-line"></i><span> Битрейт:</span></span><span class="widget-value" id="sidebarTotalBitrate">0</span> Мбит/с</div>
+                    <div class="widget-item"><span class="widget-label"><i class="fas fa-tachometer-alt"></i><span> Загрузка:</span></span><span class="widget-value" id="sidebarLoadPercent">0%</span></div>
+                    <div class="widget-item"><span class="widget-label"><i class="fas fa-plug"></i><span> Порты:</span></span><span class="widget-value" id="sidebarPortsUsed">0</span>/<span id="sidebarPortsTotal">0</span></div>
+                    <div class="widget-item"><span class="widget-label"><i class="fas fa-broadcast-tower"></i><span> Multicast:</span></span><span class="widget-value" id="sidebarMulticastStatus">—</span></div>
+                    <div class="widget-item"><span class="widget-label"><i class="fas fa-chart-pie"></i><span> QoS:</span></span><span class="widget-value" id="sidebarQoSStatus">—</span></div>
+                </div>
             </div>
         </div>
         <!-- СТАТИСТИКА: питание -->
@@ -831,14 +835,13 @@
                     <button class="btn-secondary" id="exportJsonBtn"><i class="fas fa-file-export"></i><span> Экспорт JSON</span></button>
                     <button class="btn-secondary" id="importJsonBtn"><i class="fas fa-file-import"></i><span> Импорт JSON</span></button>
                     <button class="btn-secondary" id="printReportBtnSidebar"><i class="fas fa-print"></i><span> Печать отчёта</span></button>
-                    <button class="btn-secondary" id="docBtnSidebar"><i class="fas fa-book"></i><span> Документация</span></button>
-                    <button class="btn-secondary" id="guideBtnSidebar"><i class="fas fa-question-circle"></i><span> Инструкция</span></button>
+                    <button class="btn-secondary" id="wikiBtnSidebar"><i class="fas fa-book"></i><span> Wiki</span></button>
                     <button class="btn-danger" id="resetProjectBtn"><i class="fas fa-trash-alt"></i><span> Сброс проекта</span></button>
                 </div>
             </div>
         </div>
 
-        <div class="sidebar-footer">Sputnik Studio v6.0.1<br>© 2026</div>
+        <div class="sidebar-footer">Sputnik Studio v6.0.3<br>© 2026</div>
     </div>
 
     <div class="main-content">
@@ -863,24 +866,6 @@
         </div>
     </div>
 </div>
-<div id="docModal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close" id="closeDocModal">&times;</span>
-        <h2>Документация Sputnik Studio v6.0.1</h2>
-        <p>Полная версия документации доступна в виде PDF‑файла.</p>
-        <p><a href="https://raw.githubusercontent.com/rawcam/sputnik-studio/main/sputnik_studio_documentation.pdf" target="_blank">📄 Скачать документацию (PDF)</a></p>
-        <div class="modal-buttons"><button class="btn-primary" id="downloadDocPdf">Скачать PDF</button></div>
-    </div>
-</div>
-<div id="guideModal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close" id="closeGuideModal">&times;</span>
-        <h2>Инструкция пользователя</h2>
-        <p>Полная инструкция по работе с Sputnik Studio доступна в виде PDF‑файла.</p>
-        <p><a href="https://raw.githubusercontent.com/rawcam/sputnik-studio/main/sputnik_studio_manual.pdf" target="_blank">📄 Скачать инструкцию (PDF)</a></p>
-        <div class="modal-buttons"><button class="btn-primary" id="downloadGuidePdf">Скачать PDF</button></div>
-    </div>
-</div>
 <div id="resetModal" class="modal">
     <div class="modal-content">
         <span class="modal-close" id="closeResetModal">&times;</span>
@@ -896,7 +881,7 @@
 
 <script>
 (function() {
-    // ======================== БАЗА МОДЕЛЕЙ ОБОРУДОВАНИЯ ========================
+    // ======================== БАЗА МОДЕЛЕЙ ========================
     const modelDB = {
         source: [
             { name: "Типовой ПК", latency: 5, poe: false, powerW: 200, icon: "fa-desktop", hasNetwork: true, shortPrefix: "PC" },
@@ -990,7 +975,6 @@
     let activePathId = null;
     let viewMode = 'single'; // 'single', 'all', 'ergo', 'sound', 'led', 'vc'
 
-    // LED конфигурация
     let ledConfig = {
         activeMode: 'cabinets',
         pitchIndex: 0,
@@ -1008,21 +992,17 @@
         width_m: 0, height_m: 0, resW: 0, resH: 0, area: 0, power: 0
     };
 
-    // Звуковые настройки (расширены)
     let soundConfig = {
         sensitivity: 89, sourcePower: 1, distance: 1, headroom: 9, roomGain: 3,
         sourceType: 'point', startDistance: 1, endDistance: 16,
         powerChangeFrom: 1, powerChangeTo: 2, activeMode: 'spl',
-        // RT60
         roomVolume: 200, roomArea: 100, avgAbsorption: 0.2,
-        // Подбор громкоговорителей
         roomLength: 10, roomWidth: 10, roomHeight: 3, speakerPower: 30, speakerSensitivity: 90, requiredSPL: 85
     };
 
-    // ВКС настройки
     let vcConfig = {
         activeMode: 'codec',
-        codecPreset: 'trueconf', // trueconf, vinteo, cisco, poly, yealink
+        codecPreset: 'trueconf',
         resolution: '1080p',
         fps: 30,
         participants: 2,
@@ -1031,7 +1011,6 @@
 
     let exportCounter = 1;
 
-    // DOM элементы
     const sidebarPathsList = document.getElementById('sidebarPathsList');
     const sidebarTotalBitrate = document.getElementById('sidebarTotalBitrate');
     const sidebarLoadPercent = document.getElementById('sidebarLoadPercent');
@@ -1041,6 +1020,8 @@
     const sidebarPoETotal = document.getElementById('sidebarPoETotal');
     const sidebarTotalPower = document.getElementById('sidebarTotalPower');
     const sidebarTotalBTU = document.getElementById('sidebarTotalBTU');
+    const sidebarMulticastStatus = document.getElementById('sidebarMulticastStatus');
+    const sidebarQoSStatus = document.getElementById('sidebarQoSStatus');
     const activePathContainer = document.getElementById('activePathContainer');
     const allTractsContainer = document.getElementById('allTractsContainer');
     const ergoCalculatorContainer = document.getElementById('ergoCalculatorContainer');
@@ -1055,7 +1036,7 @@
     const modalCancelBtn = document.getElementById('modalCancelBtn');
     let currentSegment = null;
 
-    // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ (видео, сеть, порт-менеджер, устройства) ==========
+    // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
     const resFactor = { "1080p": 1.0, "4K": 1.5, "8K": 2.5 };
     const chromaFactor = { "444": 1.2, "422": 1.0, "420": 0.9 };
     function getResolutionFactor() { return resFactor[globalSettings.resolution] || 1.0; }
@@ -1537,6 +1518,7 @@
         renderAllTracts();
     }
 
+    // ========== КАЛЬКУЛЯТОР ЭРГОНОМИКИ ==========
     function showErgoCalculator() {
         if (viewMode === 'ergo') {
             const lastMode = localStorage.getItem('lastViewMode') || 'single';
@@ -1559,17 +1541,415 @@
         ledCalculatorContainer.style.display = 'none';
         vcCalculatorContainer.style.display = 'none';
         ergoCalculatorContainer.style.display = '';
+
         const ergoBtn = document.getElementById('showErgoCalcBtn');
         ergoBtn.classList.remove('btn-primary');
         ergoBtn.classList.add('btn-inactive');
         ergoBtn.innerHTML = '<i class="fas fa-calculator"></i> Показать калькулятор';
-        if (ergoCalculatorContainer.innerHTML === '') {
-            // (код эргономики – полная версия из v5.7.0, опущен для краткости, но он должен быть)
-            ergoCalculatorContainer.innerHTML = `<div class="ergo-calc"><p>Калькулятор эргономики (полная версия из v5.7.0)</p></div>`;
+
+        let screensList = [{ id: 'custom', name: '— Ручной ввод —', width: 0, height: 0, resolutionW: 0, resolutionH: 0 }];
+        paths.forEach(path => {
+            [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
+                if (dev.type === 'display' || dev.type === 'ledScreen') {
+                    let w = 0, h = 0, rw = 0, rh = 0;
+                    if (dev.type === 'display') {
+                        w = 1200; h = 700; rw = 1920; rh = 1080;
+                    } else if (dev.type === 'ledScreen') {
+                        w = ledConfig.width_m * 1000;
+                        h = ledConfig.height_m * 1000;
+                        rw = ledConfig.resW;
+                        rh = ledConfig.resH;
+                    }
+                    screensList.push({
+                        id: dev.id,
+                        name: dev.name,
+                        width: w,
+                        height: h,
+                        resolutionW: rw,
+                        resolutionH: rh
+                    });
+                }
+            });
+        });
+
+        const screenSelectHtml = `<div class="screen-selector">
+            <label>Выберите экран:</label>
+            <select id="ergoScreenSelect">${screensList.map(s => `<option value="${s.id}" data-width="${s.width}" data-height="${s.height}" data-resw="${s.resolutionW}" data-resh="${s.resolutionH}">${s.name}</option>`).join('')}</select>
+            <div id="manualScreenParams" style="margin-top: 12px; display: none;">
+                <div class="ergo-row">
+                    <div class="ergo-field"><label>Ширина экрана (мм):</label><input type="number" id="screenWidth" value="1200" step="10"></div>
+                    <div class="ergo-field"><label>Высота экрана (мм):</label><input type="number" id="screenHeight" value="700" step="10"></div>
+                </div>
+                <div class="ergo-row">
+                    <div class="ergo-field"><label>Разрешение по ширине (пикс):</label><input type="number" id="screenResW" value="1920" step="1"></div>
+                    <div class="ergo-field"><label>Разрешение по высоте (пикс):</label><input type="number" id="screenResH" value="1080" step="1"></div>
+                </div>
+            </div>
+        </div>`;
+
+        ergoCalculatorContainer.innerHTML = `
+            <div class="ergo-calc">
+                <div class="ergo-tabs" id="ergoTabs">
+                    <div class="ergo-tab active" data-tab="distance">Расчёт расстояния/высоты</div>
+                    <div class="ergo-tab" data-tab="zov">Зона оптимальной видимости (ЗОВ)</div>
+                </div>
+                <div id="distanceTab" style="display: block;">
+                    <div class="ergo-mode-switch" id="ergoModeSwitch">
+                        <button class="ergo-mode-btn active" data-mode="exact">Точный (tg α)</button>
+                        <button class="ergo-mode-btn" data-mode="approx">Приближённый (коэфф.)</button>
+                    </div>
+                    ${screenSelectHtml}
+                    <div id="ergoDistanceCalc">
+                        <h4>📏 Расчёт расстояния до экрана по высоте символа</h4>
+                        <div class="ergo-row">
+                            <div class="ergo-field">
+                                <label>Высота символа h (мм):</label>
+                                <input type="number" id="ergoCharHeight" value="28" step="1" min="1">
+                            </div>
+                            <div class="ergo-field">
+                                <label>Категория информации:</label>
+                                <select id="ergoInfoTypeDist">
+                                    <option value="min">Минимальная читаемость (α=0.25°)</option>
+                                    <option value="optimal" selected>Оптимальные условия (α=0.38°)</option>
+                                    <option value="critical">Критическая информация (α=0.55°)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ergo-result">
+                            <div class="big-number" id="ergoDistanceResult">—</div>
+                            <div class="small-text">максимальное расстояние (метров)</div>
+                            <div id="pixelInfoDist" style="font-size:0.8rem; margin-top:8px;"></div>
+                        </div>
+                    </div>
+                    <div id="ergoHeightCalc" style="margin-top: 16px;">
+                        <h4>📏 Расчёт минимальной высоты символа по известному расстоянию до экрана</h4>
+                        <div class="ergo-row">
+                            <div class="ergo-field">
+                                <label>Расстояние до экрана L (мм):</label>
+                                <input type="number" id="ergoDistanceMM" value="4000" step="100" min="100">
+                            </div>
+                            <div class="ergo-field">
+                                <label>Категория информации:</label>
+                                <select id="ergoInfoTypeHeight">
+                                    <option value="min">Минимальная читаемость (α=0.25°)</option>
+                                    <option value="optimal" selected>Оптимальные условия (α=0.38°)</option>
+                                    <option value="critical">Критическая информация (α=0.55°)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="ergo-result">
+                            <div class="big-number" id="ergoHeightResult">—</div>
+                            <div class="small-text">минимальная высота символов (мм)</div>
+                            <div id="pixelInfoHeight" style="font-size:0.8rem; margin-top:8px;"></div>
+                        </div>
+                    </div>
+                    <div class="ergo-info">
+                        📖 Согласно методике ITPP (Новикова, Переверзев).<br>
+                        • α = 0.25° — минимальная различимость (14–16 угл. мин)<br>
+                        • α = 0.38° — оптимальные условия (20–22 угл. мин)<br>
+                        • α = 0.55° — критическая информация (30–35 угл. мин)<br>
+                        Формулы: h = L·tg(α)  |  L = h / tg(α).<br>
+                        Приближённый режим использует коэффициенты: 0.004, 0.007, 0.009.
+                    </div>
+                </div>
+                <div id="zovTab" style="display: none;">
+                    <h4>📐 Зона оптимальной видимости (ЗОВ)</h4>
+                    <div class="screen-selector" style="margin-bottom: 12px;">
+                        <label>Выберите экран для расчёта:</label>
+                        <select id="zovScreenSelect">${screensList.map(s => `<option value="${s.id}" data-width="${s.width}" data-height="${s.height}" data-resw="${s.resolutionW}" data-resh="${s.resolutionH}">${s.name}</option>`).join('')}</select>
+                        <div id="zovManualParams" style="margin-top: 12px; display: none;">
+                            <div class="ergo-row">
+                                <div class="ergo-field"><label>Ширина экрана (мм):</label><input type="number" id="zovScreenWidth" value="1200" step="10"></div>
+                                <div class="ergo-field"><label>Высота экрана (мм):</label><input type="number" id="zovScreenHeight" value="700" step="10"></div>
+                            </div>
+                            <div class="ergo-row">
+                                <div class="ergo-field"><label>Разрешение по ширине (пикс):</label><input type="number" id="zovScreenResW" value="1920" step="1"></div>
+                                <div class="ergo-field"><label>Разрешение по высоте (пикс):</label><input type="number" id="zovScreenResH" value="1080" step="1"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ergo-row">
+                        <div class="ergo-field">
+                            <label>Положение строки (% от высоты):</label>
+                            <input type="number" id="rowPosition" value="50" step="10" min="0" max="100">
+                        </div>
+                        <div class="ergo-field">
+                            <label>Критический угол α (градусы):</label>
+                            <input type="number" id="criticalAngle" value="0.38" step="0.05" min="0.1" max="1.0">
+                        </div>
+                    </div>
+                    <div class="participant-list" id="participantList"></div>
+                    <button class="btn-secondary btn-small" id="addParticipantBtn"><i class="fas fa-user-plus"></i> Добавить участника</button>
+                    <div class="ergo-result" style="margin-top: 16px;">
+                        <div><strong>Коэффициент эргономики Кэ:</strong> <span id="keValue" class="ke-value">—</span> / 10</div>
+                        <div id="keDetails" style="font-size:0.8rem; margin-top:8px;"></div>
+                    </div>
+                    <div class="ergo-info">
+                        * Координаты участников задаются в мм, начало координат – центр экрана, ось Y – нормаль к экрану.<br>
+                        Для каждого участника рассчитывается доля строки, попадающая в зону оптимальной видимости (угол ≥ критического).<br>
+                        Кэ = (средняя доля по всем участникам) × 10.
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const tabs = document.querySelectorAll('.ergo-tab');
+        const distanceTab = document.getElementById('distanceTab');
+        const zovTab = document.getElementById('zovTab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'distance') {
+                    distanceTab.style.display = 'block';
+                    zovTab.style.display = 'none';
+                } else {
+                    distanceTab.style.display = 'none';
+                    zovTab.style.display = 'block';
+                    updateZOV();
+                }
+            });
+        });
+
+        const screenSelect = document.getElementById('ergoScreenSelect');
+        const manualDiv = document.getElementById('manualScreenParams');
+        const screenWidth = document.getElementById('screenWidth');
+        const screenHeight = document.getElementById('screenHeight');
+        const screenResW = document.getElementById('screenResW');
+        const screenResH = document.getElementById('screenResH');
+        let currentScreen = { width: 0, height: 0, resW: 0, resH: 0 };
+
+        function updateScreen() {
+            const selected = screenSelect.options[screenSelect.selectedIndex];
+            if (selected.value === 'custom') {
+                manualDiv.style.display = 'block';
+                currentScreen.width = parseFloat(screenWidth.value) || 0;
+                currentScreen.height = parseFloat(screenHeight.value) || 0;
+                currentScreen.resW = parseInt(screenResW.value) || 0;
+                currentScreen.resH = parseInt(screenResH.value) || 0;
+            } else {
+                manualDiv.style.display = 'none';
+                currentScreen.width = parseFloat(selected.dataset.width) || 0;
+                currentScreen.height = parseFloat(selected.dataset.height) || 0;
+                currentScreen.resW = parseInt(selected.dataset.resw) || 0;
+                currentScreen.resH = parseInt(selected.dataset.resh) || 0;
+            }
+            updateErgoCalculator();
         }
+
+        screenSelect.addEventListener('change', updateScreen);
+        screenWidth.addEventListener('input', updateScreen);
+        screenHeight.addEventListener('input', updateScreen);
+        screenResW.addEventListener('input', updateScreen);
+        screenResH.addEventListener('input', updateScreen);
+
+        function updateErgoCalculator() {
+            const mode = document.querySelector('.ergo-mode-btn.active')?.dataset.mode || 'exact';
+            const angleDeg = { min: 0.25, optimal: 0.38, critical: 0.55 };
+            const approxK = { min: 0.004, optimal: 0.007, critical: 0.009 };
+            const h = parseFloat(document.getElementById('ergoCharHeight')?.value);
+            const infoTypeDist = document.getElementById('ergoInfoTypeDist')?.value;
+            if (!isNaN(h) && h > 0 && infoTypeDist) {
+                let L_mm;
+                if (mode === 'exact') {
+                    const rad = angleDeg[infoTypeDist] * Math.PI / 180;
+                    const tanVal = Math.tan(rad);
+                    L_mm = h / tanVal;
+                } else {
+                    const k = approxK[infoTypeDist];
+                    L_mm = h / k;
+                }
+                const L_m = L_mm / 1000;
+                document.getElementById('ergoDistanceResult').innerText = L_m.toFixed(2);
+                if (currentScreen.height > 0 && currentScreen.resH > 0) {
+                    const pixels = (h / currentScreen.height) * currentScreen.resH;
+                    document.getElementById('pixelInfoDist').innerHTML = `≈ ${pixels.toFixed(1)} пикселей по вертикали`;
+                } else {
+                    document.getElementById('pixelInfoDist').innerHTML = '';
+                }
+            } else {
+                document.getElementById('ergoDistanceResult').innerText = '—';
+                document.getElementById('pixelInfoDist').innerHTML = '';
+            }
+
+            const L_input = parseFloat(document.getElementById('ergoDistanceMM')?.value);
+            const infoTypeHeight = document.getElementById('ergoInfoTypeHeight')?.value;
+            if (!isNaN(L_input) && L_input > 0 && infoTypeHeight) {
+                let h_mm;
+                if (mode === 'exact') {
+                    const rad = angleDeg[infoTypeHeight] * Math.PI / 180;
+                    const tanVal = Math.tan(rad);
+                    h_mm = L_input * tanVal;
+                } else {
+                    const k = approxK[infoTypeHeight];
+                    h_mm = L_input * k;
+                }
+                document.getElementById('ergoHeightResult').innerText = h_mm.toFixed(1);
+                if (currentScreen.height > 0 && currentScreen.resH > 0) {
+                    const pixels = (h_mm / currentScreen.height) * currentScreen.resH;
+                    document.getElementById('pixelInfoHeight').innerHTML = `≈ ${pixels.toFixed(1)} пикселей по вертикали`;
+                } else {
+                    document.getElementById('pixelInfoHeight').innerHTML = '';
+                }
+            } else {
+                document.getElementById('ergoHeightResult').innerText = '—';
+                document.getElementById('pixelInfoHeight').innerHTML = '';
+            }
+        }
+
+        const modeBtns = document.querySelectorAll('.ergo-mode-btn');
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updateErgoCalculator();
+            });
+        });
+        const ergoInputs = ['ergoCharHeight', 'ergoInfoTypeDist', 'ergoDistanceMM', 'ergoInfoTypeHeight'];
+        ergoInputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', updateErgoCalculator);
+                if (el.tagName === 'SELECT') el.addEventListener('change', updateErgoCalculator);
+            }
+        });
+        updateScreen();
+
+        let participants = [];
+
+        function updateZOV() {
+            const zovScreenSelect = document.getElementById('zovScreenSelect');
+            const zovManualDiv = document.getElementById('zovManualParams');
+            const zovScreenWidth = document.getElementById('zovScreenWidth');
+            const zovScreenHeight = document.getElementById('zovScreenHeight');
+            const zovScreenResW = document.getElementById('zovScreenResW');
+            const zovScreenResH = document.getElementById('zovScreenResH');
+            const selected = zovScreenSelect.options[zovScreenSelect.selectedIndex];
+            let screenW = 0, screenH = 0;
+            if (selected.value === 'custom') {
+                screenW = parseFloat(zovScreenWidth.value) || 0;
+                screenH = parseFloat(zovScreenHeight.value) || 0;
+            } else {
+                screenW = parseFloat(selected.dataset.width) || 0;
+                screenH = parseFloat(selected.dataset.height) || 0;
+            }
+            const rowPos = parseFloat(document.getElementById('rowPosition').value) / 100;
+            const critAngleRad = parseFloat(document.getElementById('criticalAngle').value) * Math.PI / 180;
+            const yCoord = (1 - rowPos) * screenH - screenH/2;
+            let totalZone = 0;
+            let details = [];
+            participants.forEach((p, idx) => {
+                const Xp = p.x;
+                const Yp = p.y;
+                const Zp = p.z;
+                const leftX = -screenW/2;
+                const rightX = screenW/2;
+                function angleToPoint(x, y, z) {
+                    const dx = x - Xp;
+                    const dy = y - Yp;
+                    const dz = z - Zp;
+                    const dist = Math.hypot(dx, dz);
+                    return Math.atan2(dist, dy);
+                }
+                const angleLeft = angleToPoint(leftX, yCoord, 0);
+                const angleRight = angleToPoint(rightX, yCoord, 0);
+                if (angleLeft >= critAngleRad && angleRight >= critAngleRad) {
+                    totalZone += 1;
+                    details.push(`Участник ${idx+1}: 100%`);
+                } else if (angleLeft < critAngleRad && angleRight < critAngleRad) {
+                    totalZone += 0;
+                    details.push(`Участник ${idx+1}: 0%`);
+                } else {
+                    const diff = angleRight - angleLeft;
+                    const t = (critAngleRad - angleLeft) / diff;
+                    const coverage = t > 0 ? (angleRight >= critAngleRad ? 1 - t : t) : 0;
+                    totalZone += coverage;
+                    details.push(`Участник ${idx+1}: ${Math.round(coverage*100)}%`);
+                }
+            });
+            const avgZone = participants.length ? totalZone / participants.length : 0;
+            const ke = avgZone * 10;
+            document.getElementById('keValue').innerText = ke.toFixed(1);
+            document.getElementById('keDetails').innerHTML = details.join('<br>');
+        }
+
+        function renderParticipantList() {
+            const container = document.getElementById('participantList');
+            if (!container) return;
+            let html = '';
+            participants.forEach((p, idx) => {
+                html += `
+                    <div class="participant-item">
+                        <div class="participant-header">
+                            <strong>Участник ${idx+1}</strong>
+                            <button class="btn-small remove-participant" data-idx="${idx}"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                        <div class="participant-coords">
+                            <label>X (мм): <input type="number" class="participant-x" data-idx="${idx}" value="${p.x}" step="100"></label>
+                            <label>Y (мм): <input type="number" class="participant-y" data-idx="${idx}" value="${p.y}" step="100"></label>
+                            <label>Z (мм): <input type="number" class="participant-z" data-idx="${idx}" value="${p.z}" step="100"></label>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            document.querySelectorAll('.participant-x, .participant-y, .participant-z').forEach(inp => {
+                inp.addEventListener('input', (e) => {
+                    const idx = parseInt(inp.dataset.idx);
+                    const val = parseFloat(inp.value);
+                    if (!isNaN(val)) {
+                        if (inp.classList.contains('participant-x')) participants[idx].x = val;
+                        else if (inp.classList.contains('participant-y')) participants[idx].y = val;
+                        else participants[idx].z = val;
+                        updateZOV();
+                    }
+                });
+            });
+            document.querySelectorAll('.remove-participant').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = parseInt(btn.dataset.idx);
+                    participants.splice(idx, 1);
+                    renderParticipantList();
+                    updateZOV();
+                });
+            });
+        }
+
+        document.getElementById('addParticipantBtn')?.addEventListener('click', () => {
+            participants.push({ x: 0, y: 3000, z: 0 });
+            renderParticipantList();
+            updateZOV();
+        });
+
+        const zovScreenSelect = document.getElementById('zovScreenSelect');
+        const zovManualDiv = document.getElementById('zovManualParams');
+        const zovScreenWidth = document.getElementById('zovScreenWidth');
+        const zovScreenHeight = document.getElementById('zovScreenHeight');
+        const zovScreenResW = document.getElementById('zovScreenResW');
+        const zovScreenResH = document.getElementById('zovScreenResH');
+        function updateZOVScreen() {
+            const selected = zovScreenSelect.options[zovScreenSelect.selectedIndex];
+            if (selected.value === 'custom') {
+                zovManualDiv.style.display = 'block';
+            } else {
+                zovManualDiv.style.display = 'none';
+            }
+            updateZOV();
+        }
+        zovScreenSelect.addEventListener('change', updateZOVScreen);
+        zovScreenWidth.addEventListener('input', updateZOV);
+        zovScreenHeight.addEventListener('input', updateZOV);
+        zovScreenResW.addEventListener('input', updateZOV);
+        zovScreenResH.addEventListener('input', updateZOV);
+        document.getElementById('rowPosition')?.addEventListener('input', updateZOV);
+        document.getElementById('criticalAngle')?.addEventListener('input', updateZOV);
+        updateZOVScreen();
+        participants.push({ x: -1500, y: 3000, z: 0 }, { x: 1500, y: 3000, z: 0 });
+        renderParticipantList();
+        updateZOV();
     }
 
-    // ========== ЗВУКОВЫЕ КАЛЬКУЛЯТОРЫ (расширенные) ==========
+    // ========== ЗВУКОВЫЕ КАЛЬКУЛЯТОРЫ ==========
     function renderSoundCalculator(mode) {
         soundConfig.activeMode = mode;
         let html = '';
@@ -1714,7 +2094,7 @@
         ergoBtn.classList.remove('btn-inactive'); ergoBtn.classList.add('btn-primary'); ergoBtn.innerHTML = '<i class="fas fa-calculator"></i> Показать калькулятор';
     }
 
-    // ========== LED КАЛЬКУЛЯТОРЫ (вынос в основную область) ==========
+    // ========== LED КАЛЬКУЛЯТОРЫ ==========
     function renderLedCalculator(mode) {
         ledConfig.activeMode = mode;
         let html = '';
@@ -1751,7 +2131,6 @@
             </div>`;
         }
         ledCalculatorContainer.innerHTML = html;
-        // Функции обновления
         if (mode === 'cabinets') {
             const update = () => {
                 const pitchIdx = parseInt(document.getElementById('cabPitchSelect').value);
@@ -2095,6 +2474,8 @@
         sidebarPoETotal.innerText=totalPoEBudget;
         sidebarTotalPower.innerText=totalPowerAll.toFixed(0);
         sidebarTotalBTU.innerText=(totalPowerAll*3.412).toFixed(0);
+        sidebarMulticastStatus.innerText = globalSettings.multicast ? 'Вкл' : 'Выкл';
+        sidebarQoSStatus.innerText = globalSettings.qos ? 'Вкл' : 'Выкл';
 
         if (viewMode === 'single') {
             const activePath = paths.find(p=>p.id===activePathId);
@@ -2113,7 +2494,7 @@
         renderPathsList();
     }
 
-    // ========== ОБРАБОТЧИКИ СОБЫТИЙ И ИНИЦИАЛИЗАЦИЯ ==========
+    // ========== ОБРАБОТЧИКИ СОБЫТИЙ ==========
     function attachDeviceEvents() {
         document.querySelectorAll('.add-device-btn').forEach(btn=>{
             btn.addEventListener('click',e=>{
@@ -2300,7 +2681,7 @@
     // ========== СОХРАНЕНИЕ / ЗАГРУЗКА ==========
     function saveToLocalStorage() {
         const projectData = {
-            version: '6.0.1',
+            version: '6.0.3',
             globalSettings, paths, projectSwitches, ledConfig, soundConfig, vcConfig,
             nextPathId, nextSwitchId, activePathId, viewMode
         };
@@ -2308,7 +2689,7 @@
         alert('Проект сохранён в браузере');
     }
     function exportToJson() {
-        const projectData = { version: '6.0.1', exportDate: new Date().toISOString(), globalSettings, paths, projectSwitches, ledConfig, soundConfig, vcConfig, nextPathId, nextSwitchId, activePathId, viewMode };
+        const projectData = { version: '6.0.3', exportDate: new Date().toISOString(), globalSettings, paths, projectSwitches, ledConfig, soundConfig, vcConfig, nextPathId, nextSwitchId, activePathId, viewMode };
         const json = JSON.stringify(projectData, null, 2);
         const fileName = `sputnik-studio_${exportCounter}.json`;
         exportCounter++;
@@ -2376,15 +2757,32 @@
 
     function resetProject() {
         if (confirm('Сбросить все данные? Текущий проект будет удалён.')) {
-            paths=[]; projectSwitches=[]; nextPathId=1; nextSwitchId=1; activePathId=null;
-            ledConfig = { activeMode:'cabinets', pitchIndex:0, cabinetPreset:'600x337.5', cabinetWidth:600, cabinetHeight:337.5, cabinetsW:1, cabinetsH:1, targetResolution:'fhd', customResW:1920, customResH:1080, stitchedScreenId:null, stitchCountW:2, stitchCountH:1, width_m:0, height_m:0, resW:0, resH:0, area:0, power:0 };
-            soundConfig = { sensitivity:89, sourcePower:1, distance:1, headroom:9, roomGain:3, sourceType:'point', startDistance:1, endDistance:16, powerChangeFrom:1, powerChangeTo:2, activeMode:'spl', roomVolume:200, roomArea:100, avgAbsorption:0.2, roomLength:10, roomWidth:10, roomHeight:3, speakerPower:30, speakerSensitivity:90, requiredSPL:85 };
-            vcConfig = { activeMode:'codec', codecPreset:'trueconf', resolution:'1080p', fps:30, participants:2, multipointParticipants:4 };
-            for(let k in deviceCounters) deviceCounters[k]=0;
+            paths = [];
+            projectSwitches = [];
+            nextPathId = 1;
+            nextSwitchId = 1;
+            activePathId = null;
+            ledConfig = {
+                activeMode: 'cabinets', pitchIndex: 0, cabinetPreset: '600x337.5', cabinetWidth: 600, cabinetHeight: 337.5,
+                cabinetsW: 1, cabinetsH: 1, targetResolution: 'fhd', customResW: 1920, customResH: 1080,
+                stitchedScreenId: null, stitchCountW: 2, stitchCountH: 1,
+                width_m: 0, height_m: 0, resW: 0, resH: 0, area: 0, power: 0
+            };
+            soundConfig = {
+                sensitivity: 89, sourcePower: 1, distance: 1, headroom: 9, roomGain: 3,
+                sourceType: 'point', startDistance: 1, endDistance: 16,
+                powerChangeFrom: 1, powerChangeTo: 2, activeMode: 'spl',
+                roomVolume: 200, roomArea: 100, avgAbsorption: 0.2,
+                roomLength: 10, roomWidth: 10, roomHeight: 3, speakerPower: 30, speakerSensitivity: 90, requiredSPL: 85
+            };
+            vcConfig = {
+                activeMode: 'codec', codecPreset: 'trueconf', resolution: '1080p', fps: 30, participants: 2, multipointParticipants: 4
+            };
+            for(let k in deviceCounters) deviceCounters[k] = 0;
             portManager.setSwitches(projectSwitches);
             addNewPath();
             calculateAll();
-            document.getElementById('resetModal').style.display='none';
+            document.getElementById('resetModal').style.display = 'none';
         }
     }
 
@@ -2437,7 +2835,7 @@
         document.getElementById('printReportBtnSidebar').addEventListener('click',()=>{
             let win = window.open('', '_blank');
             win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Технический отчёт Sputnik Studio</title><style>body{font-family:"Segoe UI",Arial,sans-serif;margin:20px;color:#1e2b3c}h1{color:#2563eb;border-bottom:2px solid #2563eb;padding-bottom:8px}h2{color:#1e2b3c;margin-top:24px;border-left:4px solid #2563eb;padding-left:12px}h3{color:#4a5a6e;margin-top:16px}table{border-collapse:collapse;width:100%;margin:16px 0}th,td{border:1px solid #d9e1ec;padding:8px 12px;text-align:left;vertical-align:top}th{background-color:#e2edff;font-weight:600}.summary-box{background:#f9fcff;border:1px solid #d9e1ec;border-radius:8px;padding:16px;margin:16px 0}.summary-grid{display:flex;flex-wrap:wrap;gap:20px}.summary-item{flex:1;min-width:200px}.footer{margin-top:40px;font-size:12px;color:#6c757d;text-align:center;border-top:1px solid #dee2e6;padding-top:16px}</style></head><body>');
-            win.document.write('<h1>Sputnik Studio v6.0.1 — Технический отчёт</h1>');
+            win.document.write('<h1>Sputnik Studio v6.0.3 — Технический отчёт</h1>');
             win.document.write('<p><strong>Дата формирования:</strong> ' + new Date().toLocaleString() + '</p>');
             win.document.write('<h2>1. Глобальные параметры проекта</h2><div class="summary-box"><div class="summary-grid">');
             win.document.write(`<div class="summary-item"><strong>Разрешение:</strong> ${globalSettings.resolution}</div>`);
@@ -2481,7 +2879,7 @@
                 });
                 const frames = delay / (1000 / getFps());
                 win.document.write(`<h3>${path.name} (задержка: ${delay.toFixed(2)} мс / ${frames.toFixed(2)} кадр.)</h3>`);
-                win.document.write('<table border="1" cellpadding="5" width="100%"><thead><tr><th>Сегмент</th><th>Устройство</th><th>Тип</th><th>Задержка (мс)</th><th>Питание</th><th>Подключение</th><th>Примечания</th></tr></thead><tbody>');
+                win.document.write('<table border="1" cellpadding="5" width="100%"><thead> <tr><th>Сегмент</th><th>Устройство</th><th>Тип</th><th>Задержка (мс)</th><th>Питание</th><th>Подключение</th><th>Примечания</th></tr></thead><tbody>');
                 [...path.sourceDevices, ...path.sinkDevices].forEach(dev => {
                     let segName = dev.segment === 'source' ? 'Начало тракта' : 'Конец тракта';
                     let devLatency = dev.latency || 0;
@@ -2510,75 +2908,72 @@
                 });
                 win.document.write('</tbody></table>');
             });
-            win.document.write('<div class="footer">Отчёт сгенерирован в Sputnik Studio v6.0.1.</div>');
+            win.document.write('<div class="footer">Отчёт сгенерирован в Sputnik Studio v6.0.3.</div>');
             win.document.write('</body></html>');
             win.document.close();
             win.print();
         });
-        document.getElementById('docBtnSidebar').addEventListener('click',()=>document.getElementById('docModal').style.display='flex');
-        document.getElementById('guideBtnSidebar').addEventListener('click',()=>document.getElementById('guideModal').style.display='flex');
-        document.getElementById('closeDocModal').addEventListener('click',()=>document.getElementById('docModal').style.display='none');
-        document.getElementById('closeGuideModal').addEventListener('click',()=>document.getElementById('guideModal').style.display='none');
-        document.getElementById('closeResetModal').addEventListener('click',()=>document.getElementById('resetModal').style.display='none');
-        document.getElementById('cancelResetBtn').addEventListener('click',()=>document.getElementById('resetModal').style.display='none');
-        document.getElementById('confirmResetBtn').addEventListener('click',resetProject);
-        document.getElementById('saveBeforeResetBtn').addEventListener('click',()=>{ saveToLocalStorage(); resetProject(); });
-        document.getElementById('downloadDocPdf').addEventListener('click',()=>window.print());
-        document.getElementById('downloadGuidePdf').addEventListener('click',()=>window.print());
-        document.getElementById('addPathBtnSidebar').addEventListener('click',()=>addNewPath());
-        document.getElementById('showAllTractsBtn').addEventListener('click',()=>showAllTracts());
-        document.getElementById('showErgoCalcBtn').addEventListener('click',()=>showErgoCalculator());
-        document.querySelectorAll('.sound-mode-btn').forEach(btn=>btn.addEventListener('click',()=>showSoundMode(btn.dataset.mode)));
-        document.querySelectorAll('.led-mode-btn').forEach(btn=>btn.addEventListener('click',()=>showLedMode(btn.dataset.mode)));
-        document.querySelectorAll('.vc-mode-btn').forEach(btn=>btn.addEventListener('click',()=>showVcMode(btn.dataset.mode)));
+        document.getElementById('wikiBtnSidebar').addEventListener('click', () => {
+            window.open('wiki.html', '_blank');
+        });
+        document.getElementById('closeResetModal').addEventListener('click', () => document.getElementById('resetModal').style.display = 'none');
+        document.getElementById('cancelResetBtn').addEventListener('click', () => document.getElementById('resetModal').style.display = 'none');
+        document.getElementById('confirmResetBtn').addEventListener('click', resetProject);
+        document.getElementById('saveBeforeResetBtn').addEventListener('click', () => { saveToLocalStorage(); resetProject(); });
+        document.getElementById('addPathBtnSidebar').addEventListener('click', () => addNewPath());
+        document.getElementById('showAllTractsBtn').addEventListener('click', () => showAllTracts());
+        document.getElementById('showErgoCalcBtn').addEventListener('click', () => showErgoCalculator());
+        document.querySelectorAll('.sound-mode-btn').forEach(btn => btn.addEventListener('click', () => showSoundMode(btn.dataset.mode)));
+        document.querySelectorAll('.led-mode-btn').forEach(btn => btn.addEventListener('click', () => showLedMode(btn.dataset.mode)));
+        document.querySelectorAll('.vc-mode-btn').forEach(btn => btn.addEventListener('click', () => showVcMode(btn.dataset.mode)));
 
-        const themeSwitch=document.getElementById('themeSwitch');
-        function setTheme(theme){
-            if(theme==='dark'){ document.body.classList.add('dark'); themeSwitch.innerHTML='<i class="fas fa-moon"></i>'; localStorage.setItem('theme','dark'); }
+        const themeSwitch = document.getElementById('themeSwitch');
+        function setTheme(theme) {
+            if(theme === 'dark'){ document.body.classList.add('dark'); themeSwitch.innerHTML='<i class="fas fa-moon"></i>'; localStorage.setItem('theme','dark'); }
             else{ document.body.classList.remove('dark'); themeSwitch.innerHTML='<i class="fas fa-sun"></i>'; localStorage.setItem('theme','light'); }
         }
-        themeSwitch.addEventListener('click',()=>{ const isDark=document.body.classList.contains('dark'); setTheme(isDark?'light':'dark'); });
-        if(localStorage.getItem('theme')==='dark') setTheme('dark');
-        const sidebar=document.getElementById('sidebar'), collapseBtn=document.getElementById('collapseSidebarBtn');
-        function setSidebarCollapsed(collapsed){
+        themeSwitch.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); setTheme(isDark ? 'light' : 'dark'); });
+        if(localStorage.getItem('theme') === 'dark') setTheme('dark');
+        const sidebar = document.getElementById('sidebar'), collapseBtn = document.getElementById('collapseSidebarBtn');
+        function setSidebarCollapsed(collapsed) {
             if(collapsed){ sidebar.classList.add('collapsed'); collapseBtn.innerHTML='<i class="fas fa-chevron-right"></i>'; localStorage.setItem('sidebarCollapsed','true'); }
             else{ sidebar.classList.remove('collapsed'); collapseBtn.innerHTML='<i class="fas fa-chevron-left"></i>'; localStorage.setItem('sidebarCollapsed','false'); }
         }
-        collapseBtn.addEventListener('click',()=>setSidebarCollapsed(!sidebar.classList.contains('collapsed')));
-        if(localStorage.getItem('sidebarCollapsed')==='true') setSidebarCollapsed(true);
-        const mobileToggle=document.getElementById('mobileMenuToggle');
-        mobileToggle.addEventListener('click',()=>sidebar.classList.toggle('open'));
-        document.addEventListener('click',e=>{ if(window.innerWidth<=768&&sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&e.target!==mobileToggle) sidebar.classList.remove('open'); });
-        deviceTypeSelect.addEventListener('change',()=>updateModelSelect(deviceTypeSelect.value));
-        modalAddBtn.addEventListener('click',()=>{
+        collapseBtn.addEventListener('click', () => setSidebarCollapsed(!sidebar.classList.contains('collapsed')));
+        if(localStorage.getItem('sidebarCollapsed') === 'true') setSidebarCollapsed(true);
+        const mobileToggle = document.getElementById('mobileMenuToggle');
+        mobileToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+        document.addEventListener('click', e => { if(window.innerWidth<=768 && sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== mobileToggle) sidebar.classList.remove('open'); });
+        deviceTypeSelect.addEventListener('change', () => updateModelSelect(deviceTypeSelect.value));
+        modalAddBtn.addEventListener('click', () => {
             if(!currentSegment) return;
-            let type=deviceTypeSelect.value;
-            if(currentSegment.segment==='switch'){
-                if(type==='matrix'){
-                    let modelIndex=deviceModelSelect.selectedIndex;
-                    let newMatrix=createMatrix(type,modelIndex);
+            let type = deviceTypeSelect.value;
+            if(currentSegment.segment === 'switch'){
+                if(type === 'matrix'){
+                    let modelIndex = deviceModelSelect.selectedIndex;
+                    let newMatrix = createMatrix(type, modelIndex);
                     if(newMatrix){ projectSwitches.push(newMatrix); updateAllShortNames(); calculateAll(); }
-                } else if(type==='networkSwitch'){
-                    let modelIndex=deviceModelSelect.selectedIndex;
-                    let newSwitch=createSwitch(type,modelIndex);
+                } else if(type === 'networkSwitch'){
+                    let modelIndex = deviceModelSelect.selectedIndex;
+                    let newSwitch = createSwitch(type, modelIndex);
                     if(newSwitch){ projectSwitches.push(newSwitch); updateAllShortNames(); calculateAll(); }
                 }
             } else {
-                let modelIndex=deviceModelSelect.selectedIndex;
-                let path=paths.find(p=>p.id===currentSegment.pathId);
+                let modelIndex = deviceModelSelect.selectedIndex;
+                let path = paths.find(p => p.id === currentSegment.pathId);
                 if(!path) return;
-                let newDev=createDevice(type,modelIndex,currentSegment.pathId,currentSegment.segment);
+                let newDev = createDevice(type, modelIndex, currentSegment.pathId, currentSegment.segment);
                 if(newDev){
-                    if(currentSegment.segment==='source') path.sourceDevices.push(newDev);
-                    else if(currentSegment.segment==='sink') path.sinkDevices.push(newDev);
+                    if(currentSegment.segment === 'source') path.sourceDevices.push(newDev);
+                    else if(currentSegment.segment === 'sink') path.sinkDevices.push(newDev);
                     updateAllShortNames();
                     calculateAll();
                 }
             }
-            modal.style.display='none';
+            modal.style.display = 'none';
         });
-        modalCancelBtn.addEventListener('click',()=>modal.style.display='none');
-        window.addEventListener('click',e=>{ if(e.target===modal) modal.style.display='none'; });
+        modalCancelBtn.addEventListener('click', () => modal.style.display = 'none');
+        window.addEventListener('click', e => { if(e.target === modal) modal.style.display = 'none'; });
     }
 
     init();
