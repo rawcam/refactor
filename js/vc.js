@@ -1,7 +1,8 @@
+// vc.js
 const VcModule = (function() {
     let unsubscribe = null;
     function init() {
-        console.log('TractsModule stub');
+        console.log('VcModule stub');
         unsubscribe = AppState.subscribe(()=>{});
     }
     function destroy() {
