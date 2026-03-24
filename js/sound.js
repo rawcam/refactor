@@ -1,7 +1,8 @@
+// sound.js
 const SoundModule = (function() {
     let unsubscribe = null;
     function init() {
-        console.log('TractsModule stub');
+        console.log('SoundModule stub');
         unsubscribe = AppState.subscribe(()=>{});
     }
     function destroy() {
