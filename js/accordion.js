@@ -8,10 +8,10 @@ const Accordion = (function() {
             const header = e.target.closest('.section-header');
             if (!header) return;
 
-            const sectionId = header.getAttribute('data-section');
-            if (!sectionId) return;
+            const contentId = header.getAttribute('data-section');
+            if (!contentId) return;
 
-            const content = document.getElementById(`${sectionId}Content`);
+            const content = document.getElementById(`${contentId}Content`);
             if (!content) return;
 
             const isCollapsed = content.classList.toggle('collapsed');
@@ -22,7 +22,7 @@ const Accordion = (function() {
                 header.classList.add('active');
             }
 
-            localStorage.setItem(`section_${sectionId}_collapsed`, isCollapsed);
+            localStorage.setItem(`section_${contentId}_collapsed`, isCollapsed);
         });
 
         const sections = ['video', 'network', 'led', 'sound', 'vc', 'paths', 'networkStats', 'powerStats', 'manage', 'ergo'];
