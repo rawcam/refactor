@@ -1,7 +1,7 @@
 const LedsModule = (function() {
     let unsubscribe = null;
     function init() {
-        console.log('LedModule stub');
+        console.log('LedsModule stub');
         unsubscribe = AppState.subscribe(()=>{});
     }
     function destroy() {
