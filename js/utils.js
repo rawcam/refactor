@@ -1,6 +1,6 @@
 // utils.js
 const Utils = (function() {
-    // Модели устройств
+    // ========== Модели устройств ==========
     const modelDB = {
         source: [
             { name: "Типовой ПК", latency: 5, poe: false, powerW: 200, icon: "fa-desktop", hasNetwork: true, shortPrefix: "PC" },
@@ -82,7 +82,7 @@ const Utils = (function() {
         ]
     };
 
-    // Вспомогательные функции для видео
+    // ========== Вспомогательные функции для видео ==========
     const resFactor = { "1080p": 1.0, "4K": 1.5, "8K": 2.5 };
     const chromaFactor = { "444": 1.2, "422": 1.0, "420": 0.9 };
     function getResolutionFactor(settings) { return resFactor[settings.resolution] || 1.0; }
@@ -100,7 +100,7 @@ const Utils = (function() {
         return base;
     }
 
-    // Класс PortManager
+    // ========== Класс PortManager ==========
     class SimplePortManager {
         constructor() { this.switches = []; }
         setSwitches(switches) { this.switches = switches; }
@@ -145,11 +145,55 @@ const Utils = (function() {
         }
     }
 
+    // ========== Функции для работы с короткими именами устройств ==========
+    function generateShortName(dev, allDevices) {
+        let prefix = dev.shortPrefix;
+        if (!prefix) {
+            if (dev.type === 'source') prefix = 'SRC';
+            else if (dev.type === 'tx') prefix = 'TX';
+            else if (dev.type === 'rx') prefix = 'RX';
+            else prefix = 'DEV';
+        }
+        // Принудительно для rx и tx
+        if (dev.type === 'rx') prefix = 'RX';
+        if (dev.type === 'tx') prefix = 'TX';
+
+        let maxNum = 0;
+        const regex = new RegExp(`^${prefix}(\\d+)$`);
+        for (let d of allDevices) {
+            if (d.shortName && d.shortName.match(regex)) {
+                const num = parseInt(d.shortName.match(regex)[1], 10);
+                if (num > maxNum) maxNum = num;
+            }
+        }
+        return prefix + (maxNum + 1);
+    }
+
+    function updateAllShortNames(state) {
+        const allDevices = [];
+        state.paths.forEach(p => {
+            allDevices.push(...p.sourceDevices, ...p.sinkDevices);
+        });
+        allDevices.push(...state.projectSwitches);
+
+        // Сначала обнулим короткие имена, чтобы при повторном вычислении не влиять
+        for (let dev of allDevices) {
+            dev.shortName = null;
+        }
+        for (let dev of allDevices) {
+            dev.shortName = generateShortName(dev, allDevices);
+        }
+        return allDevices;
+    }
+
+    // ========== Экспорт ==========
     return {
         modelDB,
         resFactor, chromaFactor,
         getResolutionFactor, getChromaFactor, getColorSpaceFactor, getBitDepthFactor,
         calcVideoBitrate,
-        SimplePortManager
+        SimplePortManager,
+        generateShortName,
+        updateAllShortNames
     };
 })();
