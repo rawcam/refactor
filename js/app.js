@@ -10,6 +10,7 @@
     VcModule.init();
     ErgoModule.init();
     StorageModule.init();
+    LoggerModule.init();
 
     function initTheme() {
         const themeSwitch = document.getElementById('themeSwitch');
