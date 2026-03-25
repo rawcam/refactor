@@ -490,6 +490,14 @@ body {
     margin-left: 2px;
 }
 
+/* Унифицируем результаты в виджетах (SPL, падение, RT60 и др.) */
+.calc-card .widget-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.2;
+}
+
 .calc-card .ergo-info {
     font-size: 0.75rem;
     color: var(--text-secondary);
@@ -504,7 +512,7 @@ body {
 #mpChannel {
     font-size: 0.85rem;
     font-weight: normal;
-    color: var(--accent);  /* ← теперь синий, как и другие результаты */
+    color: var(--accent);
 }
 
 /* ========== ЭРГОНОМИКА ========== */
