@@ -176,74 +176,9 @@ const StorageModule = (function() {
 
     function resetProject() {
         if (confirm('Сбросить все данные? Текущий проект будет удалён.')) {
-            const newState = {
-                globalSettings: {
-                    resolution: '4K',
-                    chroma: '422',
-                    fps: 60,
-                    colorSpace: 'YCbCr',
-                    bitDepth: 10,
-                    cable: 'Cat6',
-                    multicast: false,
-                    qos: false,
-                    networkType: 'managed',
-                    syncProtocol: 'ptp',
-                    redundancy: false
-                },
-                paths: [],
-                projectSwitches: [],
-                ledConfig: {
-                    activeMode: 'cabinets',
-                    pitchIndex: 0,
-                    cabinetPreset: '600x337.5',
-                    cabinetWidth: 600,
-                    cabinetHeight: 337.5,
-                    cabinetsW: 1,
-                    cabinetsH: 1,
-                    targetResolution: 'fhd',
-                    customResW: 1920,
-                    customResH: 1080,
-                    stitchedScreenId: null,
-                    stitchCountW: 2,
-                    stitchCountH: 1,
-                    width_m: 0, height_m: 0, resW: 0, resH: 0, area: 0, power: 0
-                },
-                soundConfig: {
-                    sensitivity: 89, sourcePower: 1, distance: 1, headroom: 9, roomGain: 3,
-                    sourceType: 'point', startDistance: 1, endDistance: 16,
-                    powerChangeFrom: 1, powerChangeTo: 2, activeMode: 'spl',
-                    roomVolume: 200, roomArea: 100, avgAbsorption: 0.2,
-                    roomLength: 10, roomWidth: 10, roomHeight: 3, speakerPower: 30, speakerSensitivity: 90, requiredSPL: 85
-                },
-                vcConfig: {
-                    activeMode: 'codec',
-                    codecPreset: 'trueconf',
-                    resolution: '1080p',
-                    fps: 30,
-                    participants: 2,
-                    multipointParticipants: 4
-                },
-                nextPathId: 1,
-                nextSwitchId: 1,
-                activePathId: null,
-                viewMode: 'single'
-            };
-            AppState.setState(newState);
-            // Обновляем DOM
-            document.getElementById('resolutionSidebar').value = newState.globalSettings.resolution;
-            document.getElementById('chromaSidebar').value = newState.globalSettings.chroma;
-            document.getElementById('fpsSidebar').value = newState.globalSettings.fps;
-            document.getElementById('colorSpace').value = newState.globalSettings.colorSpace;
-            document.getElementById('bitDepth').value = newState.globalSettings.bitDepth;
-            document.getElementById('globalCable').value = newState.globalSettings.cable;
-            document.getElementById('globalMulticast').checked = newState.globalSettings.multicast;
-            document.getElementById('globalQoS').checked = newState.globalSettings.qos;
-            document.getElementById('networkType').value = newState.globalSettings.networkType;
-            document.getElementById('syncProtocol').value = newState.globalSettings.syncProtocol;
-            document.getElementById('redundancy').checked = newState.globalSettings.redundancy;
-
-            Utils.updateAllShortNames(newState);
-            alert('Проект сброшен');
+            localStorage.removeItem('sputnik_studio_project');
+            // Перезагружаем страницу, чтобы всё сбросилось к начальному состоянию
+            location.reload();
         }
     }
 
@@ -282,11 +217,10 @@ const StorageModule = (function() {
                 console.error(e);
             }
         } else {
-            // Если нет сохранённого проекта, состояние уже пустое (paths: [], activePathId: null)
-            // Ничего не создаём. Пустой экран с кнопкой "Новый тракт".
+            // Нет сохранённого проекта – состояние уже пустое, ничего не создаём.
             const state = AppState.getState();
             if (state.paths.length === 0) {
-                // Просто убеждаемся, что viewMode = single, activePathId = null
+                // Убеждаемся, что viewMode = single, activePathId = null
                 if (state.viewMode !== 'single') AppState.setState({ viewMode: 'single' });
                 if (state.activePathId !== null) AppState.setState({ activePathId: null });
             }
