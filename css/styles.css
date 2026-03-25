@@ -504,7 +504,7 @@ body {
 #mpChannel {
     font-size: 0.85rem;
     font-weight: normal;
-    color: var(--accent);
+    color: var(--accent);  /* ← теперь синий, как и другие результаты */
 }
 
 /* ========== ЭРГОНОМИКА ========== */
