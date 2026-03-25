@@ -2,6 +2,32 @@
 const StorageModule = (function() {
     let unsubscribe = null;
 
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+    
+function init() {
+    // ... остальной код ...
+
+    // Загрузка сохранённого имени проекта
+    const projectNameInput = document.getElementById('projectNameInput');
+    if (projectNameInput) {
+        const savedName = localStorage.getItem('sputnik_project_name');
+        if (savedName) projectNameInput.value = savedName;
+        projectNameInput.addEventListener('change', () => {
+            localStorage.setItem('sputnik_project_name', projectNameInput.value);
+        });
+    }
+
+    // ... остальной код ...
+}
+    
     function saveToLocalStorage() {
         const state = AppState.getState();
         const projectData = {
